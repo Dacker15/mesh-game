@@ -979,4 +979,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  weapon: {fileID: 327339689182299755}
+  angle: 3

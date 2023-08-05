@@ -5,13 +5,12 @@ using UnityEngine;
 public abstract class Player : MonoBehaviour
 {
     public float speed;
-    public GameObject weapon;
 
     protected abstract void UseMainAbility();
 
     protected abstract void UseSecondaryAbility();
     
-    void Update()
+    protected void Update()
     {
         float xVariation = Input.GetAxisRaw("Horizontal");
         float yVariation = Input.GetAxisRaw("Vertical");
