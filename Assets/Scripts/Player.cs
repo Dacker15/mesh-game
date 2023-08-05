@@ -2,22 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public abstract class Player : MonoBehaviour
 {
     public float speed;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject weapon;
 
-    // Update is called once per frame
+    protected abstract void UseMainAbility();
+
+    protected abstract void UseSecondaryAbility();
+    
     void Update()
     {
         float xVariation = Input.GetAxisRaw("Horizontal");
         float yVariation = Input.GetAxisRaw("Vertical");
         
         gameObject.transform.position += new Vector3(speed * xVariation * Time.deltaTime, 0, speed * yVariation * Time.deltaTime);
+        
+        if (Input.GetAxisRaw("Fire1") > 0)
+        {
+            UseMainAbility();
+        } else if (Input.GetAxisRaw("Fire2") > 0)
+        {
+            UseSecondaryAbility();
+        }
     }
 }
