@@ -10,21 +10,23 @@ public class CubePlayer : Player
     private int currentPlayerRotation = 0;
     protected override void UseMainAbility()
     {
+        base.UseMainAbility();
         isPlayerRotating = true;
         Debug.Log("Cube main ability");
     }
 
     protected override void UseSecondaryAbility()
     {
+        base.UseSecondaryAbility();
         Debug.Log("Cube secondary ability");
     }
 
-    private void Start()
+    protected void Start()
     {
         maxPlayerRotation = (360 * 3) / angle;
     }
 
-    void Update()
+    protected override void Update()
     {
         base.Update();
         if (isPlayerRotating && currentPlayerRotation < maxPlayerRotation)

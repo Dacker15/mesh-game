@@ -5,12 +5,33 @@ using UnityEngine;
 
 public abstract class Player : MonoBehaviour
 {
-    public float speed;
-    public GameObject enemy;
+    private GameObject enemy;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float mainAbilityDamage;
+    [SerializeField]
+    private float secondaryAbilityDamage;
+    [SerializeField]
+    private float mainAbilityCooldown;
+    [SerializeField]
+    private float secondaryAbilityCooldown;
+    private float currentMainAbilityCooldown;
+    private float currentSecondaryAbilityCooldown;
 
-    protected abstract void UseMainAbility();
+    protected virtual void UseMainAbility()
+    {
+        if (enemy == null) return;
+        Enemy enemyBehaviour = enemy.GetComponent<Enemy>();
+        enemyBehaviour.pickDamage(mainAbilityDamage);
+    }
 
-    protected abstract void UseSecondaryAbility();
+    protected virtual void UseSecondaryAbility()
+    {
+        if (enemy == null) return;
+        Enemy enemyBehaviour = enemy.GetComponent<Enemy>();
+        enemyBehaviour.pickDamage(secondaryAbilityDamage);
+    }
 
     protected void OnTriggerEnter(Collider other)
     {
@@ -28,19 +49,24 @@ public abstract class Player : MonoBehaviour
         }
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         float xVariation = Input.GetAxisRaw("Horizontal");
         float yVariation = Input.GetAxisRaw("Vertical");
         
         gameObject.transform.position += new Vector3(speed * xVariation * Time.deltaTime, 0, speed * yVariation * Time.deltaTime);
         
-        if (Input.GetAxisRaw("Fire1") > 0)
+        currentMainAbilityCooldown -= Time.deltaTime;
+        currentSecondaryAbilityCooldown -= Time.deltaTime;
+        
+        if (Input.GetAxisRaw("Fire1") > 0 && currentMainAbilityCooldown <= 0)
         {
             UseMainAbility();
-        } else if (Input.GetAxisRaw("Fire2") > 0)
+            currentMainAbilityCooldown = mainAbilityCooldown;
+        } else if (Input.GetAxisRaw("Fire2") > 0 && currentSecondaryAbilityCooldown <= 0)
         {
             UseSecondaryAbility();
+            currentSecondaryAbilityCooldown = secondaryAbilityCooldown;
         }
     }
 }
