@@ -8,10 +8,13 @@ public class CubePlayer : Player
     private bool isPlayerRotating;
     private int maxPlayerRotation;
     private int currentPlayerRotation = 0;
+    [SerializeField]
+    private GameObject weapon;
     protected override void UseMainAbility()
     {
         base.UseMainAbility();
         isPlayerRotating = true;
+        weapon.GetComponent<BoxCollider>().enabled = false;
         Debug.Log("Cube main ability");
     }
 
@@ -39,6 +42,7 @@ public class CubePlayer : Player
             isPlayerRotating = false;
             currentPlayerRotation = 0;
             gameObject.transform.rotation = Quaternion.identity;
+            weapon.GetComponent<BoxCollider>().enabled = true;
         }
     }
     

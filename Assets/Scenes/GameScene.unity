@@ -1103,6 +1103,7 @@ MonoBehaviour:
   mainAbilityCooldown: 7
   secondaryAbilityCooldown: 8
   angle: 3
+  weapon: {fileID: 327339689182299755}
 --- !u!54 &5418119855017184863
 Rigidbody:
   m_ObjectHideFlags: 0
