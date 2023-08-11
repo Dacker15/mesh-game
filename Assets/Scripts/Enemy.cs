@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         health = 100;
+        gameObject.GetComponent<NavMeshAgent>().destination = new Vector3(0, 0, 0);
     }
 
     public void pickDamage(float attackPoint)
