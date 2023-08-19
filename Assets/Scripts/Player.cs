@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Player : MonoBehaviour
 {
     private GameObject enemy;
+    private float health;
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -23,14 +24,19 @@ public abstract class Player : MonoBehaviour
     {
         if (enemy == null) return;
         Enemy enemyBehaviour = enemy.GetComponent<Enemy>();
-        enemyBehaviour.pickDamage(mainAbilityDamage);
+        enemyBehaviour.TakeDamage(mainAbilityDamage);
     }
 
     protected virtual void UseSecondaryAbility()
     {
         if (enemy == null) return;
         Enemy enemyBehaviour = enemy.GetComponent<Enemy>();
-        enemyBehaviour.pickDamage(secondaryAbilityDamage);
+        enemyBehaviour.TakeDamage(secondaryAbilityDamage);
+    }
+
+    public void TakeDamage(float attackPoint)
+    {
+        health -= attackPoint;
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -47,6 +53,11 @@ public abstract class Player : MonoBehaviour
         {
             enemy = null;
         }
+    }
+
+    private void Start()
+    {
+        health = 100;
     }
 
     protected virtual void Update()

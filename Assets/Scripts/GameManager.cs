@@ -23,10 +23,4 @@ public class GameManager : MonoBehaviour
             Instance = this; 
         } ;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        enemy.GetComponent<NavMeshAgent>().destination = player.transform.position;
-    }
 }
