@@ -11,14 +11,15 @@ public class CubePlayer : Player
 
     protected override void FirePrimary()
     {
+        base.FirePrimary();
         isPlayerRotating = true;
         weapon.GetComponent<BoxCollider>().enabled = false;
-        GameEvents.PlayerHit(primaryDamage);
     }
 
     protected override void FireSecondary()
     {
-        GameEvents.PlayerHit(secondaryDamage);
+        base.FireSecondary();
+        Debug.Log("Secondary fire in Cube Player");
     }
 
     protected override void Start()

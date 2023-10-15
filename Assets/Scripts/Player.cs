@@ -1,10 +1,31 @@
+using System;
 using UnityEngine;
 
-public abstract class Player : PlayableEntity
+public class Player : PlayableEntity
 {
     [SerializeField] private float speed;
-    [field: SerializeField] public float FireRadius { get; private set; }
-    
+    [SerializeField] private float fireRadius;
+
+    protected override void FirePrimary()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        float distance = Vector3.Distance(transform.position, enemy.transform.position);
+        if (Math.Abs(distance) < fireRadius)
+        {
+            GameEvents.PlayerHit(primaryDamage);
+        }
+    }
+
+    protected override void FireSecondary()
+    {
+        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        float distance = Vector3.Distance(transform.position, enemy.transform.position);
+        if (Math.Abs(distance) < fireRadius)
+        {
+            GameEvents.PlayerHit(secondaryDamage);
+        }
+    }
+
     protected override void Update()
     {
         base.Update();

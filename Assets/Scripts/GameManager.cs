@@ -20,10 +20,6 @@ public sealed class GameManager : MonoBehaviour
 
     private void HandlePlayerHit(float damage)
     {
-        float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
-        if (Math.Abs(distance) < player.FireRadius)
-        {
-            enemy.TakeDamage(damage);
-        }
+        enemy.TakeDamage(damage);
     }
 }

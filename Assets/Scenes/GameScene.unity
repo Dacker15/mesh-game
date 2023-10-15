@@ -1246,6 +1246,6 @@ MonoBehaviour:
   primaryCooldown: 5
   secondaryCooldown: 10
   speed: 5
-  <FireRadius>k__BackingField: 4
+  fireRadius: 4
   angle: 3
   weapon: {fileID: 327339689182299755}
