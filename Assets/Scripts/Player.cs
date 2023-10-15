@@ -16,9 +16,11 @@ public abstract class Player : PlayableEntity
         if (Input.GetAxisRaw("Fire1") > 0 && primaryActualCooldown <= 0)
         {
             FirePrimary();
+            primaryActualCooldown = primaryCooldown;
         } else if (Input.GetAxisRaw("Fire2") > 0 && secondaryActualCooldown <= 0)
         {
             FireSecondary();
+            secondaryActualCooldown = secondaryCooldown;
         }
     }
     
