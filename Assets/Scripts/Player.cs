@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Player : PlayableEntity
 {
     [SerializeField] private float speed;
-    private GameObject enemy;
+    [field: SerializeField] public float FireRadius { get; private set; }
     
     protected override void Update()
     {
@@ -21,22 +21,6 @@ public abstract class Player : PlayableEntity
         {
             FireSecondary();
             secondaryActualCooldown = secondaryCooldown;
-        }
-    }
-    
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            enemy = other.gameObject;
-        }
-    }
-
-    protected void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            enemy = null;
         }
     }
 }

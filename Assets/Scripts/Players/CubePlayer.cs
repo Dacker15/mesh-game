@@ -13,12 +13,12 @@ public class CubePlayer : Player
     {
         isPlayerRotating = true;
         weapon.GetComponent<BoxCollider>().enabled = false;
-        Debug.Log("Cube main ability");
+        GameEvents.PlayerHit(primaryDamage);
     }
 
     protected override void FireSecondary()
     {
-        Debug.Log("Cube secondary ability");
+        GameEvents.PlayerHit(secondaryDamage);
     }
 
     protected override void Start()
