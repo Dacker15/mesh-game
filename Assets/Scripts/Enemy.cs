@@ -1,29 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : PlayableEntity
 {
     private GameObject player;
-    private float health;
-    [SerializeField] 
-    private float mainAbilityDamage;
-    [SerializeField]
-    private float mainAbilityCooldown;
-    private float currentMainAbilityCooldown;
 
-    void Start()
-    {
-        health = 100;
-    }
-
-    void Update()
-    {
-        currentMainAbilityCooldown -= Time.deltaTime;
-    }
-    
     protected void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -40,19 +20,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void UseMainAbility()
+    protected override void FirePrimary()
     {
-        if (player == null) return;
-        player.GetComponent<Player>().TakeDamage(mainAbilityDamage);
+        Debug.Log("Primary fire fired");
     }
 
-    public void TakeDamage(float attackPoint)
+    protected override void FireSecondary()
     {
-        health -= attackPoint;
-        Debug.LogFormat("Next health: {0}", health);
-        if (health <= 0)
-        {
-            Debug.Log("Enemy died");
-        }
+        Debug.Log("Secondary fire fired");
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CubePlayer : Player
@@ -10,22 +8,22 @@ public class CubePlayer : Player
     private int currentPlayerRotation = 0;
     [SerializeField]
     private GameObject weapon;
-    protected override void UseMainAbility()
+
+    protected override void FirePrimary()
     {
-        base.UseMainAbility();
         isPlayerRotating = true;
         weapon.GetComponent<BoxCollider>().enabled = false;
         Debug.Log("Cube main ability");
     }
 
-    protected override void UseSecondaryAbility()
+    protected override void FireSecondary()
     {
-        base.UseSecondaryAbility();
         Debug.Log("Cube secondary ability");
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         maxPlayerRotation = (360 * 3) / angle;
     }
 

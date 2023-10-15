@@ -485,11 +485,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 468067706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5d39244aa0192f4c82150d04b81e5fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8df3a99b00e4d7741913811f377c03cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainAbilityDamage: 5
-  mainAbilityCooldown: 7
+  health: 100
+  primaryDamage: 3
+  secondaryDamage: 5
+  primaryCooldown: 5
+  secondaryCooldown: 10
 --- !u!195 &468067712
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1232,11 +1235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad3f4c1c4bcbca41ab45de4aac4335c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  primaryDamage: 3
+  secondaryDamage: 5
+  primaryCooldown: 5
+  secondaryCooldown: 10
   speed: 5
-  mainAbilityDamage: 5
-  secondaryAbilityDamage: 5
-  mainAbilityCooldown: 7
-  secondaryAbilityCooldown: 8
   angle: 3
   weapon: {fileID: 327339689182299755}
 --- !u!54 &5418119855017184863
