@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 128390489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d73c7d01ca51ab4286c73e325941a8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9663a05da0487e74c990c8965b7465f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5418119855017184862}
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 1f199887d5e739d46b1acacd0fbad379, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: bcb04155f40d93b419cc9e5b0313d75c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &798633528
 Transform:
