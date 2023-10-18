@@ -21,9 +21,8 @@ public class CubePlayer : Player
         Debug.Log("Secondary fire in Cube Player");
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
         maxPlayerRotation = (360 * 3) / angle;
     }
 
