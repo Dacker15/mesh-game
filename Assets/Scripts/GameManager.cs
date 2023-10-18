@@ -1,7 +1,4 @@
-using System;
-using UnityEngine;
-
-public sealed class GameManager : MonoBehaviour
+public sealed class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Player player;
     [SerializeField] private Enemy enemy;
