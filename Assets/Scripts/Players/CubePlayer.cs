@@ -13,7 +13,6 @@ public class CubePlayer : Player
     {
         base.FirePrimary();
         isPlayerRotating = true;
-        weapon.GetComponent<BoxCollider>().enabled = false;
     }
 
     protected override void FireSecondary()
@@ -40,8 +39,6 @@ public class CubePlayer : Player
         {
             isPlayerRotating = false;
             currentPlayerRotation = 0;
-            gameObject.transform.rotation = Quaternion.identity;
-            weapon.GetComponent<BoxCollider>().enabled = true;
         }
     }
     
