@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : PlayableEntity
 {
     [SerializeField] private float speed;
-    [SerializeField] private float fireRadius;
+    [SerializeField] public float fireRadius;
 
     protected override void FirePrimary()
     {
