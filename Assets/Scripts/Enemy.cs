@@ -52,7 +52,7 @@ public class Enemy : PlayableEntity
             Vector3 possiblePoint = position + dir.normalized * GameManager.Instance.player.fireRadius;
 
             NavMeshHit navHit;
-            if (NavMesh.SamplePosition(possiblePoint, out navHit, agent.speed, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(possiblePoint, out navHit, GameManager.Instance.player.fireRadius, NavMesh.AllAreas))
             {
                 float distanceFromPlayer = Vector3.Distance(navHit.position, GameManager.Instance.player.transform.position);
                 if (distanceFromPlayer > maxDistance)
