@@ -9,13 +9,13 @@ public class CubePlayer : Player
     [SerializeField]
     private GameObject weapon;
 
-    protected override void FirePrimary()
+    public override void FirePrimary()
     {
         base.FirePrimary();
         isPlayerRotating = true;
     }
 
-    protected override void FireSecondary()
+    public override void FireSecondary()
     {
         base.FireSecondary();
         Debug.Log("Secondary fire in Cube Player");

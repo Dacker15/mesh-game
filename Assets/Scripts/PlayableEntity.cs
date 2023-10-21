@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class PlayableEntity : LivingEntity
@@ -9,8 +10,13 @@ public abstract class PlayableEntity : LivingEntity
     protected float primaryActualCooldown = 0;
     protected float secondaryActualCooldown = 0;
 
-    protected abstract void FirePrimary();
-    protected abstract void FireSecondary();
+    public abstract void FirePrimary();
+    public abstract void FireSecondary();
+
+    public abstract IEnumerator SpeedPowerUp(float value, float time);
+    public abstract IEnumerator DamagePowerUp(float value, float time);
+    public abstract void HealPowerUp(float value);
+    public abstract void CooldownPowerUp(float value);
     
     protected virtual void Update()
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : PlayableEntity
@@ -6,7 +7,7 @@ public class Player : PlayableEntity
     [SerializeField] private float speed;
     [SerializeField] public float fireRadius;
 
-    protected override void FirePrimary()
+    public override void FirePrimary()
     {
         GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
         float distance = Vector3.Distance(transform.position, enemy.transform.position);
@@ -16,7 +17,7 @@ public class Player : PlayableEntity
         }
     }
 
-    protected override void FireSecondary()
+    public override void FireSecondary()
     {
         GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
         float distance = Vector3.Distance(transform.position, enemy.transform.position);
@@ -24,6 +25,38 @@ public class Player : PlayableEntity
         {
             GameEvents.PlayerHit(secondaryDamage);
         }
+    }
+
+    public override IEnumerator SpeedPowerUp(float value, float time)
+    {
+        float originalSpeed = speed;
+        speed *= value;
+        yield return new WaitForSeconds(time);
+        speed = originalSpeed;
+        yield return null;
+    }
+
+    public override IEnumerator DamagePowerUp(float value, float time)
+    {
+        float originalPrimaryDamage = primaryDamage;
+        float originalSecondaryDamage = secondaryDamage;
+        primaryDamage *= value;
+        secondaryDamage *= value;
+        yield return new WaitForSeconds(time);
+        primaryDamage = originalPrimaryDamage;
+        secondaryDamage = originalSecondaryDamage;
+        yield return null;
+    }
+
+    public override void HealPowerUp(float value)
+    {
+        Heal(value);
+    }
+
+    public override void CooldownPowerUp(float value)
+    {
+        primaryActualCooldown /= value;
+        secondaryActualCooldown /= value;
     }
 
     protected override void Update()

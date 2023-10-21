@@ -29,12 +29,24 @@ public sealed class GameManager : Singleton<GameManager>
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)
     {
         spawnedPickUps.Remove(powerUp);
-        if (other.CompareTag("Player"))
+        PlayableEntity playableEntity = other.CompareTag("Player") ? player : enemy;
+        switch (powerUp.type)
         {
-            Debug.Log("Player picked up power up");
-        } else if (other.CompareTag("Enemy"))
-        {
-            Debug.Log("Enemy picked up power up");
+            case PowerUpType.SPEED:
+                StartCoroutine(playableEntity.SpeedPowerUp(powerUp.boostValue, powerUp.timeValue));
+                break;
+            case PowerUpType.DAMAGE:
+                StartCoroutine(playableEntity.DamagePowerUp(powerUp.boostValue, powerUp.timeValue));
+                break;
+            case PowerUpType.COOLDOWN:
+                playableEntity.HealPowerUp(powerUp.boostValue);
+                break;
+            case PowerUpType.HEAL:
+                playableEntity.CooldownPowerUp(powerUp.boostValue);
+                break;
+            default:
+                Debug.Log("What kind of power up you picked?");
+                break;
         }
     }
     
@@ -52,7 +64,7 @@ public sealed class GameManager : Singleton<GameManager>
         {
             GameObject pickUpGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             pickUpGameObject.transform.position = new Vector3(0, 0, 0);
-            PowerUp powerUpComponent = PowerUp.CreateComponent(pickUpGameObject, 0);
+            PowerUp powerUpComponent = PowerUp.CreateComponent(pickUpGameObject, 0, PowerUpType.DAMAGE, 5, 10);
             SphereCollider collider = pickUpGameObject.GetComponent<SphereCollider>();
             collider.isTrigger = true;
             spawnedPickUps.Add(powerUpComponent);

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,14 +21,46 @@ public class Enemy : PlayableEntity
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
-    protected override void FirePrimary()
+    public override void FirePrimary()
     {
         Debug.Log("Primary fire fired");
     }
     
-    protected override void FireSecondary()
+    public override void FireSecondary()
     {
         Debug.Log("Secondary fire fired");
+    }
+
+    public override IEnumerator SpeedPowerUp(float value, float time)
+    {
+        float originalSpeed = agent.speed;
+        agent.speed *= value;
+        yield return new WaitForSeconds(time);
+        agent.speed = originalSpeed;
+        yield return null;
+    }
+
+    public override IEnumerator DamagePowerUp(float value, float time)
+    {
+        float originalPrimaryDamage = primaryDamage;
+        float originalSecondaryDamage = secondaryDamage;
+        primaryDamage *= value;
+        secondaryDamage *= value;
+        yield return new WaitForSeconds(time);
+        primaryDamage = originalPrimaryDamage;
+        secondaryDamage = originalSecondaryDamage;
+        yield return null;
+    }
+
+    public override void HealPowerUp(float value)
+    {
+        Heal(value);
+    }
+
+    public override void CooldownPowerUp(float value)
+    {
+        primaryActualCooldown /= value;
+        secondaryActualCooldown /= value;
     }
 
     private void HandlePowerUpSpawn(PowerUp powerUp)
