@@ -5,7 +5,7 @@ public class Enemy : PlayableEntity
 {
     private float attackCooldown;
     private NavMeshAgent agent;
-    private PickUp nearestPickUp;
+    private PowerUp nearestPowerUp;
 
     private void Awake()
     {
@@ -30,29 +30,29 @@ public class Enemy : PlayableEntity
         Debug.Log("Secondary fire fired");
     }
 
-    private void HandlePowerUpSpawn(PickUp pickUp)
+    private void HandlePowerUpSpawn(PowerUp powerUp)
     {
-        if (nearestPickUp == null)
+        if (nearestPowerUp == null)
         {
-            nearestPickUp = pickUp;
+            nearestPowerUp = powerUp;
         }
         else
         {
             Vector3 position = transform.position;
-            float prevDistance = Vector3.Distance(nearestPickUp.transform.position, position);
-            float nextDistance = Vector3.Distance(pickUp.transform.position, position);
+            float prevDistance = Vector3.Distance(nearestPowerUp.transform.position, position);
+            float nextDistance = Vector3.Distance(powerUp.transform.position, position);
             if (nextDistance < prevDistance)
             {
-                nearestPickUp = pickUp;
+                nearestPowerUp = powerUp;
             }
         }
     }
 
-    private void HandlePowerUpPick(PickUp pickUp, Collider other)
+    private void HandlePowerUpPick(PowerUp powerUp, Collider other)
     {
-        if (nearestPickUp != null && pickUp.id == nearestPickUp.id)
+        if (nearestPowerUp != null && powerUp.id == nearestPowerUp.id)
         {
-            nearestPickUp = null;
+            nearestPowerUp = null;
         }
     }
     
@@ -89,10 +89,10 @@ public class Enemy : PlayableEntity
         attackCooldown -= Time.deltaTime;
         
         // If there are PowerUp in the map, follow him 
-        if (nearestPickUp != null)
+        if (nearestPowerUp != null)
         {
             Debug.Log("Enemy picking");
-            agent.destination = nearestPickUp.transform.position;
+            agent.destination = nearestPowerUp.transform.position;
         }
         // If there are no PowerUp, but ability are ready, focus on attack
         else if ((primaryActualCooldown <= 0 || secondaryActualCooldown <= 0) && attackCooldown <= 0)

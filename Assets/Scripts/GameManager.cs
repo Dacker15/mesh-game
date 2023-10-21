@@ -5,7 +5,7 @@ public sealed class GameManager : Singleton<GameManager>
 {
     public Player player;
     public Enemy enemy;
-    public List<PickUp> spawnedPickUps;
+    public List<PowerUp> spawnedPickUps;
     public float pickUpCooldown = 20;
     private float pickUpActualCooldown;
 
@@ -26,9 +26,9 @@ public sealed class GameManager : Singleton<GameManager>
         enemy.TakeDamage(damage);
     }
 
-    private void HandlePowerUpPick(PickUp pickUp, Collider other)
+    private void HandlePowerUpPick(PowerUp powerUp, Collider other)
     {
-        spawnedPickUps.Remove(pickUp);
+        spawnedPickUps.Remove(powerUp);
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player picked up power up");
@@ -52,12 +52,12 @@ public sealed class GameManager : Singleton<GameManager>
         {
             GameObject pickUpGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             pickUpGameObject.transform.position = new Vector3(0, 0, 0);
-            PickUp pickUpComponent = PickUp.CreateComponent(pickUpGameObject, 0);
+            PowerUp powerUpComponent = PowerUp.CreateComponent(pickUpGameObject, 0);
             SphereCollider collider = pickUpGameObject.GetComponent<SphereCollider>();
             collider.isTrigger = true;
-            spawnedPickUps.Add(pickUpComponent);
+            spawnedPickUps.Add(powerUpComponent);
             Instantiate(pickUpGameObject);
-            GameEvents.PowerUpSpawn(pickUpComponent);
+            GameEvents.PowerUpSpawn(powerUpComponent);
             pickUpActualCooldown = pickUpCooldown;
         }
     }
