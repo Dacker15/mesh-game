@@ -1,0 +1,417 @@
+﻿{
+  "name": "spawnablePowerUps",
+  "type": -1,
+  "arraySize": 11,
+  "arrayType": "PowerUpData",
+  "children": [
+    {
+      "name": "Array",
+      "type": -1,
+      "arraySize": 11,
+      "arrayType": "PowerUpData",
+      "children": [
+        {
+          "name": "size",
+          "type": 12,
+          "val": 11
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 20
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:DAMAGE"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 1.5
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 5
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 1
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 20
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 40
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:SPEED"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 1.5
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 5
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 1
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 40
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 60
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:COOLDOWN"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 2
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 1
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 60
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 67
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:DAMAGE"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 2
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 7
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 2
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 67
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 74
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:HEAL"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 30
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 2
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 74
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 81
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:SPEED"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 2
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 7
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 2
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 81
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 88
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:COOLDOWN"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 2.5
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 2
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 88
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 91
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:DAMAGE"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 3
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 7
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 3
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 91
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 94
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:HEAL"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 60
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 3
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 94
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 97
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:SPEED"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 3
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 7
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 3
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": -1,
+          "children": [
+            {
+              "name": "MinProbability",
+              "type": 2,
+              "val": 97
+            },
+            {
+              "name": "MaxProbability",
+              "type": 2,
+              "val": 100
+            },
+            {
+              "name": "Type",
+              "type": 7,
+              "val": "Enum:COOLDOWN"
+            },
+            {
+              "name": "BoostValue",
+              "type": 2,
+              "val": 3
+            },
+            {
+              "name": "TimeValue",
+              "type": 2,
+              "val": 0
+            },
+            {
+              "name": "level",
+              "type": 0,
+              "val": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
