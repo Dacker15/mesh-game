@@ -7,22 +7,37 @@ public sealed class GameManager : Singleton<GameManager>
     public Enemy enemy;
     public List<PickUp> spawnedPickUps;
     public float pickUpCooldown = 20;
-    public float pickUpActualCooldown;
+    private float pickUpActualCooldown;
 
     private void OnEnable()
     {
         GameEvents.onPlayerHit += HandlePlayerHit;
+        GameEvents.onPowerUpPick += HandlePowerUpPick;
     }
 
     private void OnDisable()
     {
         GameEvents.onPlayerHit -= HandlePlayerHit;
+        GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
     private void HandlePlayerHit(float damage)
     {
         enemy.TakeDamage(damage);
     }
+
+    private void HandlePowerUpPick(PickUp pickUp, Collider other)
+    {
+        spawnedPickUps.Remove(pickUp);
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player picked up power up");
+        } else if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy picked up power up");
+        }
+    }
+    
 
     protected override void Awake()
     {
@@ -38,6 +53,8 @@ public sealed class GameManager : Singleton<GameManager>
             GameObject pickUpGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             pickUpGameObject.transform.position = new Vector3(0, 0, 0);
             PickUp pickUpComponent = PickUp.CreateComponent(pickUpGameObject, 0);
+            SphereCollider collider = pickUpGameObject.GetComponent<SphereCollider>();
+            collider.isTrigger = true;
             spawnedPickUps.Add(pickUpComponent);
             Instantiate(pickUpGameObject);
             GameEvents.PowerUpSpawn(pickUpComponent);

@@ -11,11 +11,13 @@ public class Enemy : PlayableEntity
     {
         agent = GetComponent<NavMeshAgent>();
         GameEvents.onPowerUpSpawn += HandlePowerUpSpawn;
+        GameEvents.onPowerUpPick += HandlePowerUpPick;
     }
 
     private void OnDestroy()
     {
         GameEvents.onPowerUpSpawn -= HandlePowerUpSpawn;
+        GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
     protected override void FirePrimary()
@@ -43,6 +45,14 @@ public class Enemy : PlayableEntity
             {
                 nearestPickUp = pickUp;
             }
+        }
+    }
+
+    private void HandlePowerUpPick(PickUp pickUp, Collider other)
+    {
+        if (nearestPickUp != null && pickUp.id == nearestPickUp.id)
+        {
+            nearestPickUp = null;
         }
     }
     
@@ -81,6 +91,7 @@ public class Enemy : PlayableEntity
         // If there are PowerUp in the map, follow him 
         if (nearestPickUp != null)
         {
+            Debug.Log("Enemy picking");
             agent.destination = nearestPickUp.transform.position;
         }
         // If there are no PowerUp, but ability are ready, focus on attack

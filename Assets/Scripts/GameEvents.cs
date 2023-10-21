@@ -11,7 +11,7 @@ public sealed class GameEvents : MonoBehaviour
 
     public static event PowerUpSpawnHandler onPowerUpSpawn;
 
-    public delegate void PowerUpPickHandler(PickUp pickUp);
+    public delegate void PowerUpPickHandler(PickUp pickUp, Collider other);
 
     public static event PowerUpPickHandler onPowerUpPick;
 
@@ -28,6 +28,11 @@ public sealed class GameEvents : MonoBehaviour
     public static void PowerUpSpawn(PickUp pickUp)
     {
         onPowerUpSpawn?.Invoke(pickUp);
+    }
+
+    public static void PowerUpPick(PickUp pickUp, Collider collider)
+    {
+        onPowerUpPick?.Invoke(pickUp, collider);
     }
     
 }

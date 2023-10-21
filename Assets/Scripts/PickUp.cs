@@ -10,4 +10,10 @@ public class PickUp : MonoBehaviour
         component.id = id;
         return component;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameEvents.PowerUpPick(this, other);
+        Destroy(gameObject);
+    }
 }
