@@ -7,13 +7,13 @@ public sealed class GameEvents : MonoBehaviour
     public delegate void EnemyHitHandler(float damage);
     public static event EnemyHitHandler onEnemyHit;
 
-    public delegate void PowerUpSpawn();
+    public delegate void PowerUpSpawnHandler(PickUp pickUp);
 
-    public static event PowerUpSpawn onPowerUpSpawn;
+    public static event PowerUpSpawnHandler onPowerUpSpawn;
 
-    public delegate void PowerUpPick();
+    public delegate void PowerUpPickHandler(PickUp pickUp);
 
-    public static event PowerUpPick onPowerUpPick;
+    public static event PowerUpPickHandler onPowerUpPick;
 
     public static void PlayerHit(float damage)
     {
@@ -25,4 +25,9 @@ public sealed class GameEvents : MonoBehaviour
         onEnemyHit?.Invoke(damage);
     }
 
+    public static void PowerUpSpawn(PickUp pickUp)
+    {
+        onPowerUpSpawn?.Invoke(pickUp);
+    }
+    
 }

@@ -3,29 +3,19 @@ using UnityEngine.AI;
 
 public class Enemy : PlayableEntity
 {
-    private GameObject player;
     private float attackCooldown;
     private NavMeshAgent agent;
+    private PickUp nearestPickUp;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        GameEvents.onPowerUpSpawn += HandlePowerUpSpawn;
     }
 
-    protected void OnTriggerEnter(Collider other)
+    private void OnDestroy()
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            player = other.gameObject;
-        }
-    }
-    
-    protected void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            player = null;
-        }
+        GameEvents.onPowerUpSpawn -= HandlePowerUpSpawn;
     }
 
     protected override void FirePrimary()
@@ -36,6 +26,24 @@ public class Enemy : PlayableEntity
     protected override void FireSecondary()
     {
         Debug.Log("Secondary fire fired");
+    }
+
+    private void HandlePowerUpSpawn(PickUp pickUp)
+    {
+        if (nearestPickUp == null)
+        {
+            nearestPickUp = pickUp;
+        }
+        else
+        {
+            Vector3 position = transform.position;
+            float prevDistance = Vector3.Distance(nearestPickUp.transform.position, position);
+            float nextDistance = Vector3.Distance(pickUp.transform.position, position);
+            if (nextDistance < prevDistance)
+            {
+                nearestPickUp = pickUp;
+            }
+        }
     }
     
     private Vector3 FindBestValidPoint()
@@ -71,9 +79,9 @@ public class Enemy : PlayableEntity
         attackCooldown -= Time.deltaTime;
         
         // If there are PowerUp in the map, follow him 
-        if (GameManager.Instance.PowerUpCount > 0)
+        if (nearestPickUp != null)
         {
-            
+            agent.destination = nearestPickUp.transform.position;
         }
         // If there are no PowerUp, but ability are ready, focus on attack
         else if ((primaryActualCooldown <= 0 || secondaryActualCooldown <= 0) && attackCooldown <= 0)
