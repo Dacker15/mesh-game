@@ -9,9 +9,7 @@ public class Player : PlayableEntity
 
     public override void FirePrimary()
     {
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-        float distance = Vector3.Distance(transform.position, enemy.transform.position);
-        if (Math.Abs(distance) < fireRadius)
+        if (Fire(primaryFireType, primaryFireRadius, "Enemy"))
         {
             GameEvents.PlayerHit(primaryDamage);
         }
@@ -19,9 +17,7 @@ public class Player : PlayableEntity
 
     public override void FireSecondary()
     {
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-        float distance = Vector3.Distance(transform.position, enemy.transform.position);
-        if (Math.Abs(distance) < fireRadius)
+        if (Fire(secondaryFireType, secondaryFireRadius, "Enemy"))
         {
             GameEvents.PlayerHit(secondaryDamage);
         }
