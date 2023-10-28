@@ -25,7 +25,8 @@ public abstract class PlayableEntity : LivingEntity
         }
         else
         {
-            if (Physics.Raycast(transform.position, Vector3.forward, out var hit, fireRadius))
+            Debug.DrawRay(transform.position + Vector3.up, Vector3.up + transform.forward * fireRadius, Color.black, 3, false);
+            if (Physics.Raycast(transform.position + Vector3.up, transform.forward + Vector3.up, out var hit, fireRadius))
             {
                 return hit.collider.gameObject.CompareTag(tag);
             }
