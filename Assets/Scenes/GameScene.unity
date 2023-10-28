@@ -1524,6 +1524,7 @@ GameObject:
   - component: {fileID: 3545339119602183253}
   - component: {fileID: 5418119855017184863}
   - component: {fileID: 5418119855017184864}
+  - component: {fileID: 5418119855017184865}
   m_Layer: 0
   m_Name: CubePlayer
   m_TagString: Player
@@ -1661,6 +1662,28 @@ MonoBehaviour:
   fireRadius: 4
   angle: 3
   weapon: {fileID: 327339689182299755}
+  primaryAnimation: {fileID: 7400000, guid: 81ac39713b7d91a479cbf28878832312, type: 2}
+--- !u!95 &5418119855017184865
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499801931409825811}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c73189be2576aab4f9f049b87ada7493, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
