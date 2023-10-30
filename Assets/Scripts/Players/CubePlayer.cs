@@ -4,7 +4,7 @@ public class CubePlayer : Player
 {
     [SerializeField] private GameObject weapon;
     [SerializeField] private AnimationClip primaryAnimation;
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     public override void FirePrimary()
     {
@@ -16,11 +16,6 @@ public class CubePlayer : Player
     {
         base.FireSecondary();
         Debug.Log("Secondary fire in Cube Player");
-    }
-
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
     }
     
 }
