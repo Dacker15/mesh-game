@@ -23,13 +23,20 @@ public class Enemy : PlayableEntity
 
     public override void FirePrimary()
     {
-        Debug.Log("Primary fire fired");
+        if (Fire(primaryFireType, primaryFireRadius, "Player"))
+        {
+            GameEvents.EnemyHit(primaryDamage);
+        }
     }
-    
+
     public override void FireSecondary()
     {
-        Debug.Log("Secondary fire fired");
+        if (Fire(secondaryFireType, secondaryFireRadius, "Player"))
+        {
+            GameEvents.EnemyHit(secondaryDamage);
+        }
     }
+
 
     public override IEnumerator SpeedPowerUp(float value, float time)
     {

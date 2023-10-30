@@ -160,7 +160,7 @@ MonoBehaviour:
   primaryCooldown: 5
   secondaryCooldown: 10
   primaryFireRadius: 3
-  secondaryFireRadius: 15
+  secondaryFireRadius: 25
   primaryFireType: 0
   secondaryFireType: 1
   speed: 5
@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 70444167}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -743,8 +743,8 @@ MonoBehaviour:
   secondaryDamage: 5
   primaryCooldown: 5
   secondaryCooldown: 10
-  primaryFireRadius: 0
-  secondaryFireRadius: 0
+  primaryFireRadius: 3
+  secondaryFireRadius: 5
   primaryFireType: 0
   secondaryFireType: 0
 --- !u!195 &468067712

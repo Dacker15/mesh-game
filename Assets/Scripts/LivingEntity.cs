@@ -4,13 +4,15 @@ public class LivingEntity : MonoBehaviour
 {
     [SerializeField] protected float health;
 
-    public void TakeDamage(float damage)
+    public float TakeDamage(float damage)
     {
         health -= damage;
+        return health;
     }
 
-    public void Heal(float heal)
+    public float Heal(float heal)
     {
         health += heal;
+        return health;
     }
 }

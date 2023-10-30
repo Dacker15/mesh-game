@@ -14,18 +14,27 @@ public sealed class GameManager : Singleton<GameManager>
     private void OnEnable()
     {
         GameEvents.onPlayerHit += HandlePlayerHit;
+        GameEvents.onEnemyHit += HandleEnemyHit;
         GameEvents.onPowerUpPick += HandlePowerUpPick;
     }
 
     private void OnDisable()
     {
         GameEvents.onPlayerHit -= HandlePlayerHit;
+        GameEvents.onEnemyHit -= HandleEnemyHit;
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
     private void HandlePlayerHit(float damage)
     {
-        enemy.TakeDamage(damage);
+        float nextHealth = enemy.TakeDamage(damage);
+        Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
+    }
+
+    private void HandleEnemyHit(float damage)
+    {
+        float nextHealth = player.TakeDamage(damage);
+        Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
     }
 
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)
