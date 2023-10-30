@@ -28,10 +28,10 @@ public abstract class PlayableEntity : LivingEntity
         }
         else
         {
-            Debug.DrawRay(transform.position + Vector3.up, Vector3.up + transform.forward * fireRadius, Color.black, 3, false);
-            if (Physics.Raycast(transform.position + Vector3.up, transform.forward + Vector3.up, out var hit, fireRadius))
+            Debug.DrawRay(transform.position, transform.forward * fireRadius, Color.black, 10, false);
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, fireRadius))
             {
-                return hit.collider.gameObject.CompareTag(tag);
+                return hit.transform.CompareTag(tag);
             }
         }
 
