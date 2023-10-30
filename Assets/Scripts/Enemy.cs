@@ -94,16 +94,17 @@ public class Enemy : PlayableEntity
         int numberOfDirections = 8;
         Vector3 bestPoint = Vector3.zero;
         float maxDistance = 0;
+        float maxFireRadius = Mathf.Max(GameManager.Instance.player.PrimaryFireRadius, GameManager.Instance.player.SecondaryFireRadius);
 
         for (int i = 0; i < numberOfDirections; i++)
         {
             float angle = i * (360f / numberOfDirections);
             Vector3 position = transform.position;
             Vector3 dir = Quaternion.Euler(0, angle, 0) * (position - GameManager.Instance.player.transform.position);
-            Vector3 possiblePoint = position + dir.normalized * GameManager.Instance.player.fireRadius;
+            Vector3 possiblePoint = position + dir.normalized * maxFireRadius;
 
             NavMeshHit navHit;
-            if (NavMesh.SamplePosition(possiblePoint, out navHit, GameManager.Instance.player.fireRadius, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(possiblePoint, out navHit, maxFireRadius, NavMesh.AllAreas))
             {
                 float distanceFromPlayer = Vector3.Distance(navHit.position, GameManager.Instance.player.transform.position);
                 if (distanceFromPlayer > maxDistance)
@@ -150,12 +151,13 @@ public class Enemy : PlayableEntity
         // Escape in other case
         else
         {
+            float maxFireRadius = Mathf.Max(GameManager.Instance.player.PrimaryFireRadius, GameManager.Instance.player.SecondaryFireRadius);
             Vector3 position = transform.position;
             Vector3 directionAwayFromPlayer = position - GameManager.Instance.player.transform.position;
-            Vector3 destination = position + directionAwayFromPlayer.normalized * GameManager.Instance.player.fireRadius;
+            Vector3 destination = position + directionAwayFromPlayer.normalized * maxFireRadius;
 
             // Verifying that final destination is valid
-            if (NavMesh.SamplePosition(destination, out var navHit, GameManager.Instance.player.fireRadius, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(destination, out var navHit, maxFireRadius, NavMesh.AllAreas))
             {
                 agent.SetDestination(navHit.position);
             }

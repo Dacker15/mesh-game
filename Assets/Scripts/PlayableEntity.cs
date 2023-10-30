@@ -14,7 +14,10 @@ public abstract class PlayableEntity : LivingEntity
     [SerializeField] protected HitType secondaryFireType;
     protected float primaryActualCooldown = 0;
     protected float secondaryActualCooldown = 0;
-    
+
+    public float PrimaryFireRadius => primaryFireRadius;
+    public float SecondaryFireRadius => secondaryFireRadius;
+
     protected bool Fire(HitType type, float fireRadius, string tag)
     {
         if (type == HitType.MEELE)

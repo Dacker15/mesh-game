@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class Player : PlayableEntity
 {
     [SerializeField] private float speed;
-    [SerializeField] public float fireRadius;
 
     public override void FirePrimary()
     {
