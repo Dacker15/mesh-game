@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CubePlayer : Player
 {
-    [SerializeField] private GameObject weapon;
     [SerializeField] private AnimationClip primaryAnimation;
+    [SerializeField] private AnimationClip secondaryAnimation;
     [SerializeField] private Animator animator;
 
     public override void FirePrimary()
@@ -15,7 +15,7 @@ public class CubePlayer : Player
     public override void FireSecondary()
     {
         base.FireSecondary();
-        Debug.Log("Secondary fire in Cube Player");
+        animator.Play(secondaryAnimation.name);
     }
     
 }
