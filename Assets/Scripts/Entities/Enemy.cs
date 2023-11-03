@@ -132,20 +132,17 @@ public class Enemy : PlayableEntity
         // If there are PowerUp in the map, follow him 
         if (nearestPowerUp != null)
         {
-            Debug.Log("Enemy picking");
             agent.destination = nearestPowerUp.transform.position;
         }
         // If there are no PowerUp, but ability are ready, focus on attack
         else if ((primaryActualCooldown <= 0 || secondaryActualCooldown <= 0) && attackCooldown <= 0)
         {
-            Debug.Log("Enemy attacking");
             agent.destination = GameManager.Instance.player.transform.position;
             if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < 3)
             {
                 if (primaryActualCooldown <= 0)
                 {
                     FirePrimary();
-                    Debug.Log("Enemy fired");
                     attackCooldown = 3;
                 }
                 else if (secondaryActualCooldown <= 0)
@@ -177,7 +174,6 @@ public class Enemy : PlayableEntity
                     agent.SetDestination(bestValidPoint);
                 }
             }
-            Debug.Log("Enemy escaping");
         }
     }
 }
