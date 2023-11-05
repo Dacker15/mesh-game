@@ -11,6 +11,7 @@ public class SpherePlayer : Player
     
     public override void FirePrimary()
     {
+        base.FirePrimary();
         isUserControlActive = false;
         primaryActualDistance = 0;
     }
