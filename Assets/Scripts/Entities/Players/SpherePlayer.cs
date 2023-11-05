@@ -1,11 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpherePlayer : Player
 {
     [SerializeField] private float primaryRotationSpeed;
     private float primaryActualDistance;
+    [SerializeField] private float secondaryDuration;
+    private float secondaryActualDuration;
+    [SerializeField] private AnimationClip secondaryAnimation;
+    [SerializeField] private Animator animator;
     
     public override void FirePrimary()
     {
@@ -15,7 +17,9 @@ public class SpherePlayer : Player
 
     public override void FireSecondary()
     {
-        Debug.Log("Secondary fire in Sphere Player");
+        isUserControlActive = false;
+        secondaryActualDuration = secondaryDuration;
+        animator.Play(secondaryAnimation.name);
     }
 
     protected override void Awake()
@@ -28,12 +32,23 @@ public class SpherePlayer : Player
     {
         base.Update();
 
+        secondaryActualCooldown -= Time.deltaTime;
+        
         if (primaryActualDistance >= 0 && primaryActualDistance <= primaryFireRadius)
         {
             float frameDistance = primaryRotationSpeed * Time.deltaTime;
             transform.Translate(Vector3.forward * frameDistance);
             transform.Rotate(Vector3.forward * frameDistance);
             primaryActualDistance += frameDistance;
+        }
+        else if (secondaryActualDuration >= 0)
+        {
+            if (Fire(secondaryFireType, secondaryFireRadius, "Enemy"))
+            {
+                GameEvents.PlayerHit(secondaryDamage);
+                secondaryActualDuration = 0;
+            }
+            secondaryActualDuration -= Time.deltaTime;
         }
         else
         {

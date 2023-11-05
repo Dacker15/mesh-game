@@ -887,7 +887,10 @@ MonoBehaviour:
   primaryFireType: 1
   secondaryFireType: 0
   speed: 5
-  primaryRotationSpeed: 20
+  secondaryDuration: 3
+  primaryRotationSpeed: 30
+  secondaryAnimation: {fileID: 7400000, guid: d537b8ac37d72954abdeebb3275e9958, type: 2}
+  animator: {fileID: 1353810872}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
