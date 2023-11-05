@@ -21,22 +21,16 @@ public class Enemy : PlayableEntity
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
-    public override void FirePrimary()
+
+    protected override void OnFirePrimarySuccess()
     {
-        if (Fire(primaryFireType, primaryFireRadius, "Player"))
-        {
-            GameEvents.EnemyHit(primaryDamage);
-        }
+        GameEvents.EnemyHit(primaryDamage);
     }
 
-    public override void FireSecondary()
+    protected override void OnFireSecondarySuccess()
     {
-        if (Fire(secondaryFireType, secondaryFireRadius, "Player"))
-        {
-            GameEvents.EnemyHit(secondaryDamage);
-        }
+        GameEvents.EnemyHit(secondaryDamage);
     }
-
 
     public override IEnumerator SpeedPowerUp(float value, float time)
     {

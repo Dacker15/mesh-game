@@ -887,8 +887,8 @@ MonoBehaviour:
   primaryFireType: 1
   secondaryFireType: 0
   speed: 5
-  secondaryDuration: 3
   primaryRotationSpeed: 30
+  secondaryDuration: 3
   secondaryAnimation: {fileID: 7400000, guid: d537b8ac37d72954abdeebb3275e9958, type: 2}
   animator: {fileID: 1353810872}
 --- !u!1 &705507993
@@ -1465,7 +1465,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: b5262677ce448d34693e1ca780147a3c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

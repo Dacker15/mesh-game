@@ -37,10 +37,26 @@ public abstract class PlayableEntity : LivingEntity
 
         return false;
     }
-    
-    public abstract void FirePrimary();
-    public abstract void FireSecondary();
 
+    protected virtual void FirePrimary()
+    {
+        if (Fire(primaryFireType, primaryFireRadius, "Enemy"))
+        {
+            OnFirePrimarySuccess();
+        }
+    }
+
+    protected virtual void FireSecondary()
+    {
+        if (Fire(secondaryFireType, secondaryFireRadius, "Enemy"))
+        {
+            OnFireSecondarySuccess();
+        }
+    }
+
+
+    protected abstract void OnFirePrimarySuccess();
+    protected abstract void OnFireSecondarySuccess();
     public abstract IEnumerator SpeedPowerUp(float value, float time);
     public abstract IEnumerator DamagePowerUp(float value, float time);
     public abstract void HealPowerUp(float value);

@@ -7,20 +7,15 @@ public class Player : PlayableEntity
     protected bool isUserControlActive;
     [SerializeField] private float speed;
 
-    public override void FirePrimary()
+
+    protected override void OnFirePrimarySuccess()
     {
-        if (Fire(primaryFireType, primaryFireRadius, "Enemy"))
-        {
-            GameEvents.PlayerHit(primaryDamage);
-        }
+        GameEvents.PlayerHit(primaryDamage);
     }
 
-    public override void FireSecondary()
+    protected override void OnFireSecondarySuccess()
     {
-        if (Fire(secondaryFireType, secondaryFireRadius, "Enemy"))
-        {
-            GameEvents.PlayerHit(secondaryDamage);
-        }
+        GameEvents.PlayerHit(secondaryDamage);
     }
 
     public override IEnumerator SpeedPowerUp(float value, float time)
