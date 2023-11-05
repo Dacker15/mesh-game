@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9663a05da0487e74c990c8965b7465f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 672389977}
   enemy: {fileID: 468067711}
   spawnedPickUps: []
   powerUpSpawnPoints:
@@ -793,9 +793,10 @@ GameObject:
   - component: {fileID: 672389976}
   - component: {fileID: 672389975}
   - component: {fileID: 672389974}
+  - component: {fileID: 672389977}
   m_Layer: 0
   m_Name: SpherePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -864,6 +865,29 @@ Transform:
   - {fileID: 1353810869}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &672389977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672389973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68c9fd5b15f764940b9cebdbf3b7dd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  primaryDamage: 5
+  secondaryDamage: 8
+  primaryCooldown: 5
+  secondaryCooldown: 10
+  primaryFireRadius: 15
+  secondaryFireRadius: 4
+  primaryFireType: 1
+  secondaryFireType: 0
+  speed: 5
+  primaryRotationSpeed: 20
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1376,7 @@ GameObject:
   - component: {fileID: 1353810869}
   - component: {fileID: 1353810871}
   - component: {fileID: 1353810870}
+  - component: {fileID: 1353810872}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -1424,6 +1449,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353810868}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1353810872
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353810868}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5262677ce448d34693e1ca780147a3c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1791291867
 GameObject:
   m_ObjectHideFlags: 0

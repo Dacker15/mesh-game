@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Player : PlayableEntity
 {
+    protected bool isUserControlActive;
     [SerializeField] private float speed;
 
     public override void FirePrimary()
@@ -53,21 +55,30 @@ public class Player : PlayableEntity
         secondaryActualCooldown /= value;
     }
 
+    protected virtual void Awake()
+    {
+        isUserControlActive = true;
+    }
+
     protected override void Update()
     {
         base.Update();
-        
-        transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);
-        transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);
-        
-        if (Input.GetAxisRaw("Fire1") > 0 && primaryActualCooldown <= 0)
+
+        if (isUserControlActive)
         {
-            FirePrimary();
-            primaryActualCooldown = primaryCooldown;
-        } else if (Input.GetAxisRaw("Fire2") > 0 && secondaryActualCooldown <= 0)
-        {
-            FireSecondary();
-            secondaryActualCooldown = secondaryCooldown;
+            transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);
+            transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);
+        
+            if (Input.GetAxisRaw("Fire1") > 0 && primaryActualCooldown <= 0)
+            {
+                FirePrimary();
+                primaryActualCooldown = primaryCooldown;
+            } else if (Input.GetAxisRaw("Fire2") > 0 && secondaryActualCooldown <= 0)
+            {
+                FireSecondary();
+                secondaryActualCooldown = secondaryCooldown;
+            }
         }
+        
     }
 }
