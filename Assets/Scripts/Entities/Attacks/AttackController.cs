@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class AttackController : MonoBehaviour
 {
-    protected delegate void FireSuccess(float damage);
-    protected delegate void FireFail();
+    public delegate void FireSuccess(float damage);
+    public delegate void FireFail();
     [SerializeField] protected float primaryDamage;
     [SerializeField] protected float secondaryDamage;
     [SerializeField] protected float primaryCooldown;
@@ -16,6 +16,10 @@ public abstract class AttackController : MonoBehaviour
     [SerializeField] protected string opponentTag;
     private float primaryActualCooldown;
     private float secondaryActualCooldown;
+    private FireSuccess primaryFireSuccessCallback;
+    private FireFail primaryFireFailCallback;
+    private FireSuccess secondaryFireSuccessCallback;
+    private FireFail secondaryFireFailCallback;
 
     protected virtual void Awake()
     {
@@ -29,6 +33,14 @@ public abstract class AttackController : MonoBehaviour
         secondaryActualCooldown -= Time.deltaTime;
         OnPrimaryFireUpdate();
         OnSecondaryFireUpdate();
+    }
+
+    public void Initialize(FireSuccess primaryFireSuccessCallback, FireSuccess secondaryFireSuccessCallback, FireFail primaryFireFailCallback = null, FireFail secondaryFireFailCallback = null)
+    {
+        this.primaryFireSuccessCallback = primaryFireSuccessCallback;
+        this.primaryFireFailCallback = primaryFireFailCallback;
+        this.secondaryFireSuccessCallback = secondaryFireSuccessCallback;
+        this.secondaryFireFailCallback = secondaryFireFailCallback;
     }
 
     protected bool Fire(HitType type, float fireRadius)
@@ -51,28 +63,28 @@ public abstract class AttackController : MonoBehaviour
         return false;
     }
 
-    protected virtual void FirePrimary(FireSuccess fireSuccessCallback, FireFail fireFailCallback = null)
+    protected virtual void FirePrimary()
     {
         if (Fire(primaryFireType, primaryFireRadius))
         {
-            fireSuccessCallback(primaryDamage);
+            primaryFireSuccessCallback(primaryDamage);
         }
         else
         {
-            fireFailCallback();
+            primaryFireFailCallback?.Invoke();
         }
     }
     
 
-    protected virtual void FireSecondary(FireSuccess fireSuccessCallback, FireFail fireFailCallback = null)
+    protected virtual void FireSecondary()
     {
         if (Fire(secondaryFireType, secondaryFireRadius))
         {
-            fireSuccessCallback(secondaryDamage);
+            secondaryFireSuccessCallback(secondaryDamage);
         }
         else
         {
-            fireFailCallback();
+            secondaryFireFailCallback?.Invoke();
         }
     }
     
