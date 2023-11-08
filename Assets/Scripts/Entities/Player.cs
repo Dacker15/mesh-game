@@ -50,18 +50,23 @@ public class Player : PlayableEntity
 
     protected virtual void Update()
     {
-        transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);
-        transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);
+        if (isTransformActive)
+        {
+            transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);   
+        }
 
-        if (Input.GetAxisRaw("Fire1") > 0 && controller.isPrimaryFireReady())
+        if (isRotationActive)
+        {
+            transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);   
+        }
+
+        if (Input.GetAxisRaw("Fire1") > 0 && controller.isPrimaryFireReady() && isInputActive)
         {
             FirePrimary();
-            // primaryActualCooldown = primaryCooldown;
         }
-        else if (Input.GetAxisRaw("Fire2") > 0 && controller.isSecondaryFireReady())
+        else if (Input.GetAxisRaw("Fire2") > 0 && controller.isSecondaryFireReady() && isInputActive)
         {
             FireSecondary();
-            // secondaryActualCooldown = secondaryCooldown;
         }
     }
 }

@@ -1,14 +1,18 @@
-using System;
 using System.Collections;
-using UnityEngine;
 
 public abstract class PlayableEntity : LivingEntity
 {
     public AttackController controller;
+    protected bool isTransformActive;
+    protected bool isRotationActive;
+    protected bool isInputActive;
 
     protected virtual void Awake()
     {
-        controller.Initialize(OnFirePrimarySuccess, OnFireSecondarySuccess);
+        controller.Initialize(OnInputActiveChange, OnFirePrimarySuccess, OnFireSecondarySuccess);
+        isTransformActive = true;
+        isRotationActive = true;
+        isInputActive = true;
     }
 
     protected void FirePrimary()
@@ -19,6 +23,13 @@ public abstract class PlayableEntity : LivingEntity
     protected void FireSecondary()
     {
         controller.FireSecondaryInput();
+    }
+
+    private void OnInputActiveChange(bool transformActive, bool rotationActive, bool inputActive)
+    {
+        isTransformActive = transformActive;
+        isRotationActive = rotationActive;
+        isInputActive = inputActive;
     }
 
     protected abstract void OnFirePrimarySuccess(float damage);

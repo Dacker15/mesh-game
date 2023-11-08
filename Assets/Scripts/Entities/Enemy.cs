@@ -90,6 +90,14 @@ public class Enemy : PlayableEntity
             nearestPowerUp = null;
         }
     }
+
+    private void setAgentDestination(Vector3 destination)
+    {
+        if (isTransformActive && isRotationActive)
+        {
+            agent.SetDestination(destination);
+        }
+    }
     
     private Vector3 FindBestValidPoint()
     {
@@ -126,20 +134,20 @@ public class Enemy : PlayableEntity
         // If there are PowerUp in the map, follow him 
         if (nearestPowerUp != null)
         {
-            agent.destination = nearestPowerUp.transform.position;
+            setAgentDestination(nearestPowerUp.transform.position);
         }
         // If there are no PowerUp, but ability are ready, focus on attack
         else if ((controller.isPrimaryFireReady() || controller.isSecondaryFireReady()) && attackCooldown <= 0)
         {
-            agent.destination = GameManager.Instance.player.transform.position;
+            setAgentDestination(GameManager.Instance.player.transform.position);
             if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < 3)
             {
-                if (controller.isPrimaryFireReady())
+                if (controller.isPrimaryFireReady() && isInputActive)
                 {
                     FirePrimary();
                     attackCooldown = 3;
                 }
-                else if (controller.isSecondaryFireReady())
+                else if (controller.isSecondaryFireReady() && isInputActive)
                 {
                     FireSecondary();
                     attackCooldown = 3;
@@ -157,7 +165,7 @@ public class Enemy : PlayableEntity
             // Verifying that final destination is valid
             if (NavMesh.SamplePosition(destination, out var navHit, maxFireRadius, NavMesh.AllAreas))
             {
-                agent.SetDestination(navHit.position);
+                setAgentDestination(navHit.position);
             }
             else
             {
@@ -165,7 +173,7 @@ public class Enemy : PlayableEntity
                 Vector3 bestValidPoint = FindBestValidPoint();
                 if (bestValidPoint != Vector3.zero)
                 {
-                    agent.SetDestination(bestValidPoint);
+                    setAgentDestination(bestValidPoint);
                 }
             }
         }

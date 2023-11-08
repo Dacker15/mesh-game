@@ -10,6 +10,7 @@ public class CubeAttack : AttackController
     
     public override void FirePrimaryInput()
     {
+        inputChangeCallback(true, false, false);
         animator.Play(primaryAnimation.name);
         StartCoroutine(WaitResetPrimaryCooldown());
     }
@@ -17,8 +18,10 @@ public class CubeAttack : AttackController
     public override void FireSecondaryInput()
     {
         FireSecondary();
+        inputChangeCallback(true, true, false);
         animator.Play(secondaryAnimation.name);
         ResetSecondaryCooldown();
+        ResetInput();
     }
 
     protected override void OnPrimaryFireUpdate()
@@ -37,6 +40,7 @@ public class CubeAttack : AttackController
         yield return new WaitForSeconds(primaryAnimation.length);
         isPrimaryFireActive = false;
         ResetPrimaryCooldown();
+        ResetInput();
     }
     
 }

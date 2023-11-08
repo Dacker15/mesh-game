@@ -5,7 +5,7 @@ public abstract class AttackController : MonoBehaviour
 {
     public delegate void FireSuccess(float damage);
     public delegate void FireFail();
-    
+    public delegate void OnInputActiveChange(bool transformActive, bool rotationActive, bool inputActive);
     public float primaryDamage;
     public float secondaryDamage;
     public float primaryCooldown;
@@ -21,6 +21,8 @@ public abstract class AttackController : MonoBehaviour
     private FireFail primaryFireFailCallback;
     private FireSuccess secondaryFireSuccessCallback;
     private FireFail secondaryFireFailCallback;
+    protected OnInputActiveChange inputChangeCallback;
+    
 
     protected virtual void Awake()
     {
@@ -36,8 +38,9 @@ public abstract class AttackController : MonoBehaviour
         OnSecondaryFireUpdate();
     }
 
-    public void Initialize(FireSuccess primaryFireSuccessCallback, FireSuccess secondaryFireSuccessCallback, FireFail primaryFireFailCallback = null, FireFail secondaryFireFailCallback = null)
+    public void Initialize(OnInputActiveChange inputCallback, FireSuccess primaryFireSuccessCallback, FireSuccess secondaryFireSuccessCallback, FireFail primaryFireFailCallback = null, FireFail secondaryFireFailCallback = null)
     {
+        this.inputChangeCallback = inputCallback;
         this.primaryFireSuccessCallback = primaryFireSuccessCallback;
         this.primaryFireFailCallback = primaryFireFailCallback;
         this.secondaryFireSuccessCallback = secondaryFireSuccessCallback;
@@ -107,6 +110,11 @@ public abstract class AttackController : MonoBehaviour
     public virtual void ResetSecondaryCooldown()
     {
         secondaryActualCooldown = secondaryCooldown;
+    }
+
+    protected void ResetInput()
+    {
+        inputChangeCallback(true, true, true);
     }
     
     public abstract void FirePrimaryInput();

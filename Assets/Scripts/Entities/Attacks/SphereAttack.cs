@@ -19,26 +19,19 @@ public class SphereAttack : AttackController
     public override void FirePrimaryInput()
     {
         FirePrimary();
+        inputChangeCallback(false, false, false);
         primaryActualDistance = 0;
-        ResetPrimaryCooldown();
+        StartCoroutine(MovePlayerOnPrimaryFire());
     }
 
     public override void FireSecondaryInput()
     {
+        inputChangeCallback(false, false, false);
         animator.Play(secondaryAnimation.name);
         StartCoroutine(WaitResetSecondaryCooldown());
     }
 
-    protected override void OnPrimaryFireUpdate()
-    {
-        if (primaryActualDistance >= 0 && primaryActualDistance <= primaryFireRadius)
-        {
-            float frameDistance = primaryRotationSpeed * Time.deltaTime;
-            transform.Translate(Vector3.forward * frameDistance);
-            transform.Rotate(Vector3.forward * frameDistance);
-            primaryActualDistance += frameDistance;
-        }
-    }
+    protected override void OnPrimaryFireUpdate() { }
 
     protected override void OnSecondaryFireUpdate()
     {
@@ -48,11 +41,26 @@ public class SphereAttack : AttackController
         }
     }
 
+    private IEnumerator MovePlayerOnPrimaryFire()
+    {
+        while (primaryActualDistance >= 0 && primaryActualDistance <= primaryFireRadius)
+        {
+            float frameDistance = primaryRotationSpeed * Time.deltaTime;
+            transform.Translate(Vector3.forward * frameDistance);
+            transform.Rotate(Vector3.forward * frameDistance);
+            primaryActualDistance += frameDistance;
+            yield return null;
+        }
+        ResetPrimaryCooldown();
+        ResetInput();
+    }
+
     private IEnumerator WaitResetSecondaryCooldown()
     {
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
         ResetSecondaryCooldown();
+        ResetInput();
     }
 }
