@@ -28,12 +28,14 @@ public sealed class GameManager : Singleton<GameManager>
     private void HandlePlayerHit(float damage)
     {
         float nextHealth = enemy.TakeDamage(damage);
+        enemy.MakeInvulnerable();
         Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
     }
 
     private void HandleEnemyHit(float damage)
     {
         float nextHealth = player.TakeDamage(damage);
+        player.MakeInvulnerable();
         Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
     }
 

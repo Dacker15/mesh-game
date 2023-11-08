@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  invulnerableCooldown: 3
   controller: {fileID: 111149657}
 --- !u!114 &111149657
 MonoBehaviour:
@@ -871,6 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  invulnerableCooldown: 3
   controller: {fileID: 672389978}
   speed: 5
 --- !u!1 &705507993

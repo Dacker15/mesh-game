@@ -48,8 +48,10 @@ public class Player : PlayableEntity
         controller.secondaryActualCooldown /= value;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
+        
         if (isTransformActive)
         {
             transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);   

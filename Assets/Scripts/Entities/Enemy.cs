@@ -127,8 +127,10 @@ public class Enemy : PlayableEntity
         return bestPoint;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
+        
         attackCooldown -= Time.deltaTime;
         
         // If there are PowerUp in the map, follow him 
