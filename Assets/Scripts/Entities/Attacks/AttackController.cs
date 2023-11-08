@@ -107,9 +107,19 @@ public abstract class AttackController : MonoBehaviour
     {
         secondaryActualCooldown = secondaryCooldown;
     }
+
+    public float GetPrimaryFireRadius()
+    {
+        return primaryFireRadius;
+    }
+
+    public float GetSecondaryFireRadius()
+    {
+        return secondaryFireRadius;
+    }
     
-    protected abstract void FirePrimaryInput();
-    protected abstract void FireSecondaryInput();
+    public abstract void FirePrimaryInput();
+    public abstract void FireSecondaryInput();
     protected abstract void OnPrimaryFireUpdate();
     protected abstract void OnSecondaryFireUpdate();
 }

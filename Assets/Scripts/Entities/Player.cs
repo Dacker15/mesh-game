@@ -1,21 +1,19 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class Player : PlayableEntity
 {
-    protected bool isUserControlActive;
     [SerializeField] private float speed;
 
 
-    protected override void OnFirePrimarySuccess()
+    protected override void OnFirePrimarySuccess(float damage)
     {
-        GameEvents.PlayerHit(primaryDamage);
+        GameEvents.PlayerHit(damage);
     }
 
-    protected override void OnFireSecondarySuccess()
+    protected override void OnFireSecondarySuccess(float damage)
     {
-        GameEvents.PlayerHit(secondaryDamage);
+        GameEvents.PlayerHit(damage);
     }
 
     public override IEnumerator SpeedPowerUp(float value, float time)
@@ -29,13 +27,13 @@ public class Player : PlayableEntity
 
     public override IEnumerator DamagePowerUp(float value, float time)
     {
-        float originalPrimaryDamage = primaryDamage;
-        float originalSecondaryDamage = secondaryDamage;
-        primaryDamage *= value;
-        secondaryDamage *= value;
-        yield return new WaitForSeconds(time);
-        primaryDamage = originalPrimaryDamage;
-        secondaryDamage = originalSecondaryDamage;
+        // float originalPrimaryDamage = primaryDamage;
+        // float originalSecondaryDamage = secondaryDamage;
+        // primaryDamage *= value;
+        // secondaryDamage *= value;
+        // yield return new WaitForSeconds(time);
+        // primaryDamage = originalPrimaryDamage;
+        // secondaryDamage = originalSecondaryDamage;
         yield return null;
     }
 
@@ -46,34 +44,24 @@ public class Player : PlayableEntity
 
     public override void CooldownPowerUp(float value)
     {
-        primaryActualCooldown /= value;
-        secondaryActualCooldown /= value;
+        // primaryActualCooldown /= value;
+        // secondaryActualCooldown /= value;
     }
 
-    protected virtual void Awake()
+    protected virtual void Update()
     {
-        isUserControlActive = true;
-    }
+        transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);
+        transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);
 
-    protected override void Update()
-    {
-        base.Update();
-
-        if (isUserControlActive)
+        if (Input.GetAxisRaw("Fire1") > 0 && controller.isPrimaryFireReady())
         {
-            transform.Translate(0, 0, Input.GetAxisRaw("Vertical") * Time.deltaTime * speed);
-            transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);
-        
-            if (Input.GetAxisRaw("Fire1") > 0 && primaryActualCooldown <= 0)
-            {
-                FirePrimary();
-                primaryActualCooldown = primaryCooldown;
-            } else if (Input.GetAxisRaw("Fire2") > 0 && secondaryActualCooldown <= 0)
-            {
-                FireSecondary();
-                secondaryActualCooldown = secondaryCooldown;
-            }
+            FirePrimary();
+            // primaryActualCooldown = primaryCooldown;
         }
-        
+        else if (Input.GetAxisRaw("Fire2") > 0 && controller.isSecondaryFireReady())
+        {
+            FireSecondary();
+            // secondaryActualCooldown = secondaryCooldown;
+        }
     }
 }

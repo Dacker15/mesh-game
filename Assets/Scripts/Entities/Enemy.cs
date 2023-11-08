@@ -8,8 +8,9 @@ public class Enemy : PlayableEntity
     private NavMeshAgent agent;
     private PowerUp nearestPowerUp;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
         GameEvents.onPowerUpSpawn += HandlePowerUpSpawn;
         GameEvents.onPowerUpPick += HandlePowerUpPick;
@@ -22,14 +23,14 @@ public class Enemy : PlayableEntity
     }
 
 
-    protected override void OnFirePrimarySuccess()
+    protected override void OnFirePrimarySuccess(float damage)
     {
-        GameEvents.EnemyHit(primaryDamage);
+        GameEvents.EnemyHit(damage);
     }
 
-    protected override void OnFireSecondarySuccess()
+    protected override void OnFireSecondarySuccess(float damage)
     {
-        GameEvents.EnemyHit(secondaryDamage);
+        GameEvents.EnemyHit(damage);
     }
 
     public override IEnumerator SpeedPowerUp(float value, float time)
@@ -43,13 +44,13 @@ public class Enemy : PlayableEntity
 
     public override IEnumerator DamagePowerUp(float value, float time)
     {
-        float originalPrimaryDamage = primaryDamage;
-        float originalSecondaryDamage = secondaryDamage;
-        primaryDamage *= value;
-        secondaryDamage *= value;
-        yield return new WaitForSeconds(time);
-        primaryDamage = originalPrimaryDamage;
-        secondaryDamage = originalSecondaryDamage;
+        // float originalPrimaryDamage = primaryDamage;
+        // float originalSecondaryDamage = secondaryDamage;
+        // primaryDamage *= value;
+        // secondaryDamage *= value;
+        // yield return new WaitForSeconds(time);
+        // primaryDamage = originalPrimaryDamage;
+        // secondaryDamage = originalSecondaryDamage;
         yield return null;
     }
 
@@ -60,8 +61,8 @@ public class Enemy : PlayableEntity
 
     public override void CooldownPowerUp(float value)
     {
-        primaryActualCooldown /= value;
-        secondaryActualCooldown /= value;
+        // primaryActualCooldown /= value;
+        // secondaryActualCooldown /= value;
     }
 
     private void HandlePowerUpSpawn(PowerUp powerUp)
@@ -95,7 +96,7 @@ public class Enemy : PlayableEntity
         int numberOfDirections = 8;
         Vector3 bestPoint = Vector3.zero;
         float maxDistance = 0;
-        float maxFireRadius = Mathf.Max(GameManager.Instance.player.PrimaryFireRadius, GameManager.Instance.player.SecondaryFireRadius);
+        float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.GetPrimaryFireRadius(), GameManager.Instance.player.controller.GetSecondaryFireRadius());
 
         for (int i = 0; i < numberOfDirections; i++)
         {
@@ -118,9 +119,8 @@ public class Enemy : PlayableEntity
         return bestPoint;
     }
 
-    protected override void Update()
+    protected virtual void Update()
     {
-        base.Update();
         attackCooldown -= Time.deltaTime;
         
         // If there are PowerUp in the map, follow him 
@@ -129,17 +129,17 @@ public class Enemy : PlayableEntity
             agent.destination = nearestPowerUp.transform.position;
         }
         // If there are no PowerUp, but ability are ready, focus on attack
-        else if ((primaryActualCooldown <= 0 || secondaryActualCooldown <= 0) && attackCooldown <= 0)
+        else if ((controller.isPrimaryFireReady() || controller.isSecondaryFireReady()) && attackCooldown <= 0)
         {
             agent.destination = GameManager.Instance.player.transform.position;
             if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < 3)
             {
-                if (primaryActualCooldown <= 0)
+                if (controller.isPrimaryFireReady())
                 {
                     FirePrimary();
                     attackCooldown = 3;
                 }
-                else if (secondaryActualCooldown <= 0)
+                else if (controller.isSecondaryFireReady())
                 {
                     FireSecondary();
                     attackCooldown = 3;
@@ -149,7 +149,7 @@ public class Enemy : PlayableEntity
         // Escape in other case
         else
         {
-            float maxFireRadius = Mathf.Max(GameManager.Instance.player.PrimaryFireRadius, GameManager.Instance.player.SecondaryFireRadius);
+            float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.GetPrimaryFireRadius(), GameManager.Instance.player.controller.GetSecondaryFireRadius());
             Vector3 position = transform.position;
             Vector3 directionAwayFromPlayer = position - GameManager.Instance.player.transform.position;
             Vector3 destination = position + directionAwayFromPlayer.normalized * maxFireRadius;

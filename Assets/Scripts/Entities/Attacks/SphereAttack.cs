@@ -13,16 +13,16 @@ public class SphereAttack : AttackController
     protected override void Awake()
     {
         base.Awake();
-        primaryActualDistance = 0;
+        primaryActualDistance = -1;
     }
 
-    protected override void FirePrimaryInput()
+    public override void FirePrimaryInput()
     {
         FirePrimary();
         primaryActualDistance = 0;
     }
 
-    protected override void FireSecondaryInput()
+    public override void FireSecondaryInput()
     {
         animator.Play(secondaryAnimation.name);
         StartCoroutine(ResetSecondaryCooldown());

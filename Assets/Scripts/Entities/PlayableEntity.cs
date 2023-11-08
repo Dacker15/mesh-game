@@ -4,67 +4,27 @@ using UnityEngine;
 
 public abstract class PlayableEntity : LivingEntity
 {
-    [SerializeField] protected float primaryDamage;
-    [SerializeField] protected float secondaryDamage;
-    [SerializeField] protected float primaryCooldown;
-    [SerializeField] protected float secondaryCooldown;
-    [SerializeField] protected float primaryFireRadius;
-    [SerializeField] protected float secondaryFireRadius;
-    [SerializeField] protected HitType primaryFireType;
-    [SerializeField] protected HitType secondaryFireType;
-    protected float primaryActualCooldown = 0;
-    protected float secondaryActualCooldown = 0;
+    public AttackController controller;
 
-    public float PrimaryFireRadius => primaryFireRadius;
-    public float SecondaryFireRadius => secondaryFireRadius;
-
-    protected bool Fire(HitType type, float fireRadius, string tag)
+    protected virtual void Awake()
     {
-        if (type == HitType.MEELE)
-        {
-            GameObject enemy = GameObject.FindGameObjectWithTag(tag);
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            return Math.Abs(distance) < fireRadius;
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.forward * fireRadius, Color.black, 10, false);
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, fireRadius))
-            {
-                return hit.collider.CompareTag(tag);
-            }
-        }
-
-        return false;
+        controller.Initialize(OnFirePrimarySuccess, OnFireSecondarySuccess);
     }
 
-    protected virtual void FirePrimary()
+    protected void FirePrimary()
     {
-        if (Fire(primaryFireType, primaryFireRadius, "Enemy"))
-        {
-            OnFirePrimarySuccess();
-        }
+        controller.FirePrimaryInput();
     }
 
-    protected virtual void FireSecondary()
+    protected void FireSecondary()
     {
-        if (Fire(secondaryFireType, secondaryFireRadius, "Enemy"))
-        {
-            OnFireSecondarySuccess();
-        }
+        controller.FireSecondaryInput();
     }
 
-
-    protected abstract void OnFirePrimarySuccess();
-    protected abstract void OnFireSecondarySuccess();
+    protected abstract void OnFirePrimarySuccess(float damage);
+    protected abstract void OnFireSecondarySuccess(float damage);
     public abstract IEnumerator SpeedPowerUp(float value, float time);
     public abstract IEnumerator DamagePowerUp(float value, float time);
     public abstract void HealPowerUp(float value);
     public abstract void CooldownPowerUp(float value);
-    
-    protected virtual void Update()
-    {
-        primaryActualCooldown -= Time.deltaTime;
-        secondaryActualCooldown -= Time.deltaTime;
-    }
 }

@@ -117,7 +117,8 @@ GameObject:
   - component: {fileID: 8728516003951116347}
   - component: {fileID: 6434108855338073589}
   - component: {fileID: 6201759576792662491}
-  - component: {fileID: 36677823873972985}
+  - component: {fileID: 8326242049025728087}
+  - component: {fileID: 8861337665091048725}
   m_Layer: 0
   m_Name: CubePlayer
   m_TagString: Player
@@ -189,7 +190,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &36677823873972985
+--- !u!114 &8326242049025728087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,10 +199,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2987272210574405750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad3f4c1c4bcbca41ab45de4aac4335c, type: 3}
+  m_Script: {fileID: 11500000, guid: 03491ba3022d41ec904ebeccb08de085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   primaryDamage: 3
   secondaryDamage: 5
   primaryCooldown: 5
@@ -210,10 +210,25 @@ MonoBehaviour:
   secondaryFireRadius: 25
   primaryFireType: 0
   secondaryFireType: 1
-  speed: 5
+  opponentTag: Enemy
   primaryAnimation: {fileID: 7400000, guid: 81ac39713b7d91a479cbf28878832312, type: 2}
   secondaryAnimation: {fileID: 7400000, guid: eda88ee2242f52a4b89614bc65e75abf, type: 2}
   animator: {fileID: 1905009201296272552}
+--- !u!114 &8861337665091048725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987272210574405750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aacb354f5d51a0745a02ba025b91b40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  controller: {fileID: 8326242049025728087}
+  speed: 5
 --- !u!1 &8665269061962975003
 GameObject:
   m_ObjectHideFlags: 0
