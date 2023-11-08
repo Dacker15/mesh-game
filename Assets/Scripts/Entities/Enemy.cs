@@ -44,13 +44,13 @@ public class Enemy : PlayableEntity
 
     public override IEnumerator DamagePowerUp(float value, float time)
     {
-        // float originalPrimaryDamage = primaryDamage;
-        // float originalSecondaryDamage = secondaryDamage;
-        // primaryDamage *= value;
-        // secondaryDamage *= value;
-        // yield return new WaitForSeconds(time);
-        // primaryDamage = originalPrimaryDamage;
-        // secondaryDamage = originalSecondaryDamage;
+        float originalPrimaryDamage = controller.primaryDamage;
+        float originalSecondaryDamage = controller.secondaryDamage;
+        controller.primaryDamage *= value;
+        controller.secondaryDamage *= value;
+        yield return new WaitForSeconds(time);
+        controller.primaryDamage = originalPrimaryDamage;
+        controller.secondaryDamage = originalSecondaryDamage;
         yield return null;
     }
 
@@ -61,8 +61,8 @@ public class Enemy : PlayableEntity
 
     public override void CooldownPowerUp(float value)
     {
-        // primaryActualCooldown /= value;
-        // secondaryActualCooldown /= value;
+        controller.primaryActualCooldown /= value;
+        controller.secondaryActualCooldown /= value;
     }
 
     private void HandlePowerUpSpawn(PowerUp powerUp)
@@ -96,7 +96,7 @@ public class Enemy : PlayableEntity
         int numberOfDirections = 8;
         Vector3 bestPoint = Vector3.zero;
         float maxDistance = 0;
-        float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.GetPrimaryFireRadius(), GameManager.Instance.player.controller.GetSecondaryFireRadius());
+        float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.primaryFireRadius, GameManager.Instance.player.controller.secondaryFireRadius);
 
         for (int i = 0; i < numberOfDirections; i++)
         {
@@ -149,7 +149,7 @@ public class Enemy : PlayableEntity
         // Escape in other case
         else
         {
-            float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.GetPrimaryFireRadius(), GameManager.Instance.player.controller.GetSecondaryFireRadius());
+            float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.primaryFireRadius, GameManager.Instance.player.controller.secondaryFireRadius);
             Vector3 position = transform.position;
             Vector3 directionAwayFromPlayer = position - GameManager.Instance.player.transform.position;
             Vector3 destination = position + directionAwayFromPlayer.normalized * maxFireRadius;

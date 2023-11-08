@@ -11,13 +11,14 @@ public class CubeAttack : AttackController
     public override void FirePrimaryInput()
     {
         animator.Play(primaryAnimation.name);
-        StartCoroutine(ResetPrimaryCooldown());
+        StartCoroutine(WaitResetPrimaryCooldown());
     }
 
     public override void FireSecondaryInput()
     {
         FireSecondary();
         animator.Play(secondaryAnimation.name);
+        ResetSecondaryCooldown();
     }
 
     protected override void OnPrimaryFireUpdate()
@@ -30,11 +31,12 @@ public class CubeAttack : AttackController
 
     protected override void OnSecondaryFireUpdate() { }
 
-    private IEnumerator ResetPrimaryCooldown()
+    private IEnumerator WaitResetPrimaryCooldown()
     {
         isPrimaryFireActive = true;
         yield return new WaitForSeconds(primaryAnimation.length);
         isPrimaryFireActive = false;
+        ResetPrimaryCooldown();
     }
     
 }

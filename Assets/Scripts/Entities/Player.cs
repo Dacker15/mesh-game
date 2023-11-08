@@ -27,13 +27,13 @@ public class Player : PlayableEntity
 
     public override IEnumerator DamagePowerUp(float value, float time)
     {
-        // float originalPrimaryDamage = primaryDamage;
-        // float originalSecondaryDamage = secondaryDamage;
-        // primaryDamage *= value;
-        // secondaryDamage *= value;
-        // yield return new WaitForSeconds(time);
-        // primaryDamage = originalPrimaryDamage;
-        // secondaryDamage = originalSecondaryDamage;
+        float originalPrimaryDamage = controller.primaryDamage;
+        float originalSecondaryDamage = controller.secondaryDamage;
+        controller.primaryDamage *= value;
+        controller.secondaryDamage *= value;
+        yield return new WaitForSeconds(time);
+        controller.primaryDamage = originalPrimaryDamage;
+        controller.secondaryDamage = originalSecondaryDamage;
         yield return null;
     }
 
@@ -44,8 +44,8 @@ public class Player : PlayableEntity
 
     public override void CooldownPowerUp(float value)
     {
-        // primaryActualCooldown /= value;
-        // secondaryActualCooldown /= value;
+        controller.primaryActualCooldown /= value;
+        controller.secondaryActualCooldown /= value;
     }
 
     protected virtual void Update()

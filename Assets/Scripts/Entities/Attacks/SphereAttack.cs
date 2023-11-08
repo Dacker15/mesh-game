@@ -20,12 +20,13 @@ public class SphereAttack : AttackController
     {
         FirePrimary();
         primaryActualDistance = 0;
+        ResetPrimaryCooldown();
     }
 
     public override void FireSecondaryInput()
     {
         animator.Play(secondaryAnimation.name);
-        StartCoroutine(ResetSecondaryCooldown());
+        StartCoroutine(WaitResetSecondaryCooldown());
     }
 
     protected override void OnPrimaryFireUpdate()
@@ -47,10 +48,11 @@ public class SphereAttack : AttackController
         }
     }
 
-    private IEnumerator ResetSecondaryCooldown()
+    private IEnumerator WaitResetSecondaryCooldown()
     {
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
+        ResetSecondaryCooldown();
     }
 }

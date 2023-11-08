@@ -5,17 +5,18 @@ public abstract class AttackController : MonoBehaviour
 {
     public delegate void FireSuccess(float damage);
     public delegate void FireFail();
-    [SerializeField] protected float primaryDamage;
-    [SerializeField] protected float secondaryDamage;
-    [SerializeField] protected float primaryCooldown;
-    [SerializeField] protected float secondaryCooldown;
-    [SerializeField] protected float primaryFireRadius;
-    [SerializeField] protected float secondaryFireRadius;
-    [SerializeField] protected HitType primaryFireType;
-    [SerializeField] protected HitType secondaryFireType;
+    
+    public float primaryDamage;
+    public float secondaryDamage;
+    public float primaryCooldown;
+    public float secondaryCooldown;
+    public float primaryFireRadius;
+    public float secondaryFireRadius;
+    public HitType primaryFireType;
+    public HitType secondaryFireType;
     [SerializeField] protected string opponentTag;
-    private float primaryActualCooldown;
-    private float secondaryActualCooldown;
+    [NonSerialized] public float primaryActualCooldown;
+    [NonSerialized] public float secondaryActualCooldown;
     private FireSuccess primaryFireSuccessCallback;
     private FireFail primaryFireFailCallback;
     private FireSuccess secondaryFireSuccessCallback;
@@ -106,16 +107,6 @@ public abstract class AttackController : MonoBehaviour
     public virtual void ResetSecondaryCooldown()
     {
         secondaryActualCooldown = secondaryCooldown;
-    }
-
-    public float GetPrimaryFireRadius()
-    {
-        return primaryFireRadius;
-    }
-
-    public float GetSecondaryFireRadius()
-    {
-        return secondaryFireRadius;
     }
     
     public abstract void FirePrimaryInput();
