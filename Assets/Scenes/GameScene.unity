@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.5755831, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824862, g: 0.49827528, b: 0.57558256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 111149657}
   - component: {fileID: 111149656}
   - component: {fileID: 111149661}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CubeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -763,7 +763,7 @@ GameObject:
   - component: {fileID: 672389974}
   - component: {fileID: 672389978}
   - component: {fileID: 672389979}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpherePlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -810,7 +810,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -1364,7 +1364,7 @@ GameObject:
   - component: {fileID: 1353810871}
   - component: {fileID: 1353810870}
   - component: {fileID: 1353810872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1468,7 +1468,7 @@ GameObject:
   - component: {fileID: 1487326792}
   - component: {fileID: 1487326794}
   - component: {fileID: 1487326793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1676,7 @@ GameObject:
   - component: {fileID: 2112940635}
   - component: {fileID: 2112940634}
   - component: {fileID: 2112940633}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
