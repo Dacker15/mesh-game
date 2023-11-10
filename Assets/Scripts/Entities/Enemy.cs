@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Enemy : PlayableEntity
 {
     private float attackCooldown;
     private NavMeshAgent agent;
     private PowerUp nearestPowerUp;
+    private short nextAbilityToUse;
+    private short abilityUsedCount;
 
     protected override void Awake()
     {
@@ -14,6 +18,8 @@ public class Enemy : PlayableEntity
         agent = GetComponent<NavMeshAgent>();
         GameEvents.onPowerUpSpawn += HandlePowerUpSpawn;
         GameEvents.onPowerUpPick += HandlePowerUpPick;
+        nextAbilityToUse = (short)Random.Range(1, 2);
+        abilityUsedCount = 0;
     }
 
     private void OnDestroy()
@@ -98,6 +104,26 @@ public class Enemy : PlayableEntity
             agent.SetDestination(destination);
         }
     }
+
+    private void FindNextAbilityToUse()
+    {
+        float probabilityReduce = abilityUsedCount * 10;
+        float minInclusive = nextAbilityToUse == 1 ? Math.Min(probabilityReduce, 50) : 0;
+        float maxInclusive = nextAbilityToUse == 2 ? Math.Max(100 -  probabilityReduce, 50) : 100;
+        Debug.LogFormat("{0} - {1}", minInclusive, maxInclusive);
+        float result = Random.Range(minInclusive, maxInclusive);
+        short nextAbility = result <= 50 ? (short) 1 : (short) 2;
+        if (nextAbilityToUse != nextAbility)
+        {
+            nextAbilityToUse = nextAbility;
+            abilityUsedCount = 0;
+        }
+    }
+
+    private float GetNextAbilityFireRadius()
+    {
+        return nextAbilityToUse == 1 ? controller.primaryFireRadius : controller.secondaryFireRadius;
+    }
     
     private Vector3 FindBestValidPoint()
     {
@@ -142,18 +168,21 @@ public class Enemy : PlayableEntity
         else if ((controller.isPrimaryFireReady() || controller.isSecondaryFireReady()) && attackCooldown <= 0)
         {
             setAgentDestination(GameManager.Instance.player.transform.position);
-            if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < 3)
+            if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < GetNextAbilityFireRadius())
             {
-                if (controller.isPrimaryFireReady() && isInputActive)
+                if (controller.isPrimaryFireReady() && nextAbilityToUse == 1 && isInputActive)
                 {
                     FirePrimary();
-                    attackCooldown = 3;
                 }
-                else if (controller.isSecondaryFireReady() && isInputActive)
+                else if (controller.isSecondaryFireReady() && nextAbilityToUse == 2 && isInputActive)
                 {
                     FireSecondary();
-                    attackCooldown = 3;
+                    
                 }
+
+                abilityUsedCount += 1;
+                attackCooldown = 3;
+                FindNextAbilityToUse();
             }
         }
         // Escape in other case
