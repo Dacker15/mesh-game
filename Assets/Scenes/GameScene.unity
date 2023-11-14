@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44824862, g: 0.49827528, b: 0.57558256, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.5755831, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -919,7 +919,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1316,9 +1316,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1579576968981872529, guid: af93c48a03fff4c6fa6cc7974714639a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4604927211634163051, guid: af93c48a03fff4c6fa6cc7974714639a, type: 3}
       propertyPath: m_Name
       value: SphereEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529896514343397915, guid: af93c48a03fff4c6fa6cc7974714639a, type: 3}
+      propertyPath: m_Height
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7410422575864153717, guid: af93c48a03fff4c6fa6cc7974714639a, type: 3}
       propertyPath: m_LocalPosition.x
