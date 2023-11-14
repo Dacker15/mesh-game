@@ -23,6 +23,22 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPlayerHit -= HandlePlayerHit;
         GameEvents.onEnemyHit -= HandleEnemyHit;
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
+    } 
+    
+    protected override void Awake()
+    {
+        base.Awake();
+        pickUpActualCooldown = pickUpCooldown;
+    }
+    
+    private void Update()
+    {
+        pickUpActualCooldown -= Time.deltaTime;
+        if (pickUpActualCooldown < 0)
+        {
+            pickUpActualCooldown = pickUpCooldown;
+            SpawnPowerUp();
+        }
     }
 
     private void HandlePlayerHit(float damage)
@@ -30,6 +46,10 @@ public sealed class GameManager : Singleton<GameManager>
         float nextHealth = enemy.TakeDamage(damage);
         enemy.MakeInvulnerable();
         Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
+        if (nextHealth <= 0)
+        {
+            HandleGameEnd();
+        }
     }
 
     private void HandleEnemyHit(float damage)
@@ -37,6 +57,10 @@ public sealed class GameManager : Singleton<GameManager>
         float nextHealth = player.TakeDamage(damage);
         player.MakeInvulnerable();
         Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
+        if (nextHealth <= 0)
+        {
+            HandleGameEnd();
+        }
     }
 
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)
@@ -61,13 +85,6 @@ public sealed class GameManager : Singleton<GameManager>
                 Debug.Log("What kind of power up you picked?");
                 break;
         }
-    }
-    
-
-    protected override void Awake()
-    {
-        base.Awake();
-        pickUpActualCooldown = pickUpCooldown;
     }
 
     private GameObject FindPowerUpSpawn()
@@ -124,13 +141,9 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
-    private void Update()
+    private void HandleGameEnd()
     {
-        pickUpActualCooldown -= Time.deltaTime;
-        if (pickUpActualCooldown < 0)
-        {
-            pickUpActualCooldown = pickUpCooldown;
-            SpawnPowerUp();
-        }
+        Time.timeScale = 0;
+        Debug.Log("Game ended");
     }
 }

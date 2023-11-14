@@ -51,6 +51,9 @@ public class SphereAttack : AttackController
             primaryActualDistance += frameDistance;
             yield return null;
         }
+
+        Quaternion prevRotation = transform.rotation;
+        transform.rotation = Quaternion.Euler(prevRotation.x, prevRotation.y, 0);
         ResetPrimaryCooldown();
         ResetInput();
     }
@@ -60,6 +63,8 @@ public class SphereAttack : AttackController
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
+        Quaternion prevRotation = transform.rotation;
+        transform.rotation = Quaternion.Euler(prevRotation.x, prevRotation.y, 0);
         ResetSecondaryCooldown();
         ResetInput();
     }
