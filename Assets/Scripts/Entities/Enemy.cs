@@ -104,6 +104,10 @@ public class Enemy : PlayableEntity
         {
             agent.SetDestination(destination);
         }
+        else
+        {
+            agent.ResetPath();
+        }
     }
 
     private void FindNextAbilityToUse()
