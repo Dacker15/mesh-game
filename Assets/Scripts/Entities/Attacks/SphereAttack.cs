@@ -46,14 +46,14 @@ public class SphereAttack : AttackController
         while (primaryActualDistance >= 0 && primaryActualDistance <= primaryFireRadius)
         {
             float frameDistance = primaryRotationSpeed * Time.deltaTime;
-            transform.Translate(Vector3.forward * frameDistance);
-            transform.Rotate(Vector3.forward * frameDistance);
+            transform.Translate(0, 0, frameDistance);
+            transform.Rotate(frameDistance, 0, 0);
             primaryActualDistance += frameDistance;
             yield return null;
         }
 
-        Quaternion prevRotation = transform.rotation;
-        transform.rotation = Quaternion.Euler(prevRotation.x, prevRotation.y, 0);
+        Vector3 prevRotation = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(0, prevRotation.y, prevRotation.z);
         ResetPrimaryCooldown();
         ResetInput();
     }
@@ -63,8 +63,6 @@ public class SphereAttack : AttackController
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
-        Quaternion prevRotation = transform.rotation;
-        transform.rotation = Quaternion.Euler(prevRotation.x, prevRotation.y, 0);
         ResetSecondaryCooldown();
         ResetInput();
     }
