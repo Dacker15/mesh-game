@@ -29,7 +29,6 @@ public class Enemy : PlayableEntity
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
-
     protected override void OnFirePrimarySuccess(float damage)
     {
         GameEvents.EnemyHit(damage);
@@ -142,20 +141,24 @@ public class Enemy : PlayableEntity
         float impreciseProbabilityStartRange = Math.Min(impreciseShotCount * 10, 50);
         float impreciseProbability = Random.Range(impreciseProbabilityStartRange, 100);
         bool isImprecise = impreciseProbability < 50;
-        Vector3 imprecisionPosition = Vector3.zero;
+        float imprecisionRate = 0;
         Debug.LogFormat("Imprecise Shot probability range: {0} - {1}", impreciseProbabilityStartRange, 100);
         if (isImprecise)
         {
-            float imprecisionDistance = Random.Range(5, 8);
-            imprecisionPosition = Random.Range(0, 100) < 50 ? Vector3.left * imprecisionDistance : Vector3.right * imprecisionDistance;
+            float imprecisionDistance = Random.Range(5, 15);
+            imprecisionRate = Random.Range(0, 100) < 50 ? -imprecisionDistance : imprecisionDistance;
             impreciseShotCount += 1;
         }
         else
         {
             impreciseShotCount = 0;
         }
-        Vector3 playerPosition = GameManager.Instance.player.transform.position + imprecisionPosition;
-        transform.LookAt(playerPosition);
+        Vector3 playerPosition = GameManager.Instance.player.transform.position;
+        Vector3 nextDirection = playerPosition - transform.position;
+        Quaternion nextRotation = Quaternion.LookRotation(nextDirection);
+        Vector3 nextEulerRotation = nextRotation.eulerAngles;
+        nextEulerRotation.y += imprecisionRate;
+        transform.rotation = Quaternion.Euler(nextEulerRotation);
     }
     
     private Vector3 FindBestValidPoint()
