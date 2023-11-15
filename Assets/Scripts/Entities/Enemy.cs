@@ -12,6 +12,7 @@ public class Enemy : PlayableEntity
     private short nextAbilityToUse;
     private short abilityUsedCount;
     private short impreciseShotCount;
+    private short powerUpManagementCount;
 
     protected override void Awake()
     {
@@ -73,20 +74,32 @@ public class Enemy : PlayableEntity
 
     private void HandlePowerUpSpawn(PowerUp powerUp)
     {
-        if (nearestPowerUp == null)
+        float pickProbabilityStartRange = Math.Min(10 * powerUpManagementCount, 50);
+        float pickProbability = Random.Range(pickProbabilityStartRange, 100);
+        if (pickProbability <= 50)
         {
-            nearestPowerUp = powerUp;
-        }
-        else
-        {
-            Vector3 position = transform.position;
-            float prevDistance = Vector3.Distance(nearestPowerUp.transform.position, position);
-            float nextDistance = Vector3.Distance(powerUp.transform.position, position);
-            if (nextDistance < prevDistance)
+            if (nearestPowerUp == null)
             {
                 nearestPowerUp = powerUp;
             }
+            else
+            {
+                Vector3 position = transform.position;
+                float prevDistance = Vector3.Distance(nearestPowerUp.transform.position, position);
+                float nextDistance = Vector3.Distance(powerUp.transform.position, position);
+                if (nextDistance < prevDistance)
+                {
+                    nearestPowerUp = powerUp;
+                }
+            }
+
+            powerUpManagementCount += 1;
         }
+        else
+        {
+            powerUpManagementCount -= 1;
+        }
+        
     }
 
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)

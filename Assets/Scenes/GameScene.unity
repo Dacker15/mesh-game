@@ -263,7 +263,7 @@ MonoBehaviour:
     BoostValue: 3
     TimeValue: 0
     level: 3
-  pickUpCooldown: 500
+  pickUpCooldown: 20
 --- !u!4 &128390491
 Transform:
   m_ObjectHideFlags: 0
