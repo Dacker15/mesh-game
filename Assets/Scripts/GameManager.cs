@@ -10,6 +10,7 @@ public sealed class GameManager : Singleton<GameManager>
     public List<PowerUpData> spawnablePowerUps;
     public float pickUpCooldown = 20;
     private float pickUpActualCooldown;
+    public float matchTime;
 
     private void OnEnable()
     {
@@ -34,10 +35,16 @@ public sealed class GameManager : Singleton<GameManager>
     private void Update()
     {
         pickUpActualCooldown -= Time.deltaTime;
+        matchTime -= Time.deltaTime;
         if (pickUpActualCooldown < 0)
         {
             pickUpActualCooldown = pickUpCooldown;
             SpawnPowerUp();
+        }
+
+        if (matchTime < 0)
+        {
+            HandleGameEnd();
         }
     }
 

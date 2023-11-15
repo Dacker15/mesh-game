@@ -264,6 +264,7 @@ MonoBehaviour:
     TimeValue: 0
     level: 3
   pickUpCooldown: 20
+  matchTime: 180
 --- !u!4 &128390491
 Transform:
   m_ObjectHideFlags: 0
