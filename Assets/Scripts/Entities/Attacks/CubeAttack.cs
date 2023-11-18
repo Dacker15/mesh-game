@@ -6,6 +6,7 @@ public class CubeAttack : AttackController
     [SerializeField] private AnimationClip primaryAnimation;
     [SerializeField] private AnimationClip secondaryAnimation;
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioClip secondaryShotClip;
     private bool isPrimaryFireActive;
     
     public override void FirePrimaryInput()
@@ -20,6 +21,7 @@ public class CubeAttack : AttackController
         FireSecondary();
         inputChangeCallback(true, true, false);
         animator.Play(secondaryAnimation.name);
+        AudioSource.PlayClipAtPoint(secondaryShotClip, transform.position, 1);
         ResetSecondaryCooldown();
         ResetInput();
     }

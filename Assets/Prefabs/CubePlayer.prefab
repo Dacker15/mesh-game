@@ -215,6 +215,7 @@ MonoBehaviour:
   primaryAnimation: {fileID: 7400000, guid: 81ac39713b7d91a479cbf28878832312, type: 2}
   secondaryAnimation: {fileID: 7400000, guid: eda88ee2242f52a4b89614bc65e75abf, type: 2}
   animator: {fileID: 1905009201296272552}
+  secondaryShotClip: {fileID: 8300000, guid: 1ab2c759356f51d47bf314910334eb6b, type: 3}
 --- !u!114 &8861337665091048725
 MonoBehaviour:
   m_ObjectHideFlags: 0
