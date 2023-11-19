@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,16 +6,30 @@ public class CubeAttack : AttackController
 {
     [SerializeField] private AnimationClip primaryAnimation;
     [SerializeField] private AnimationClip secondaryAnimation;
-    [SerializeField] private Animator animator;
     [SerializeField] private AudioClip primaryRotationClip;
     [SerializeField] private AudioClip secondaryShotClip;
+    private Animator animator;
+    private CubeAnimation animationManager;
     private bool isPrimaryFireActive;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        animator = GetComponentInChildren<Animator>();
+        animationManager = GetComponentInChildren<CubeAnimation>();
+        animationManager.onRotationStart += PlayPrimaryRotationSound;
+    }
+
+    private void OnDestroy()
+    {
+        animationManager.onRotationStart -= PlayPrimaryRotationSound;
+    }
+
     public override void FirePrimaryInput()
     {
         inputChangeCallback(true, false, false);
+        animator.Play(primaryAnimation.name);
         StartCoroutine(WaitResetPrimaryCooldown());
-        StartCoroutine(ManagePrimaryAnimationSound());
     }
 
     public override void FireSecondaryInput()
@@ -37,13 +52,9 @@ public class CubeAttack : AttackController
 
     protected override void OnSecondaryFireUpdate() { }
 
-    private IEnumerator ManagePrimaryAnimationSound()
+    private void PlayPrimaryRotationSound()
     {
-        float reproductionSoundTime = primaryAnimation.length / 2;
-        animator.Play(primaryAnimation.name);
-        AudioSource.PlayClipAtPoint(primaryRotationClip, transform.position, 200);
-        yield return new WaitForSeconds(reproductionSoundTime);
-        AudioSource.PlayClipAtPoint(primaryRotationClip, transform.position, 200);
+        AudioSource.PlayClipAtPoint(primaryRotationClip, transform.position, 10);
     }
     
     private IEnumerator WaitResetPrimaryCooldown()
