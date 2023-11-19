@@ -192,6 +192,7 @@ MonoBehaviour:
   primaryAnimation: {fileID: 7400000, guid: 81ac39713b7d91a479cbf28878832312, type: 2}
   secondaryAnimation: {fileID: 7400000, guid: eda88ee2242f52a4b89614bc65e75abf, type: 2}
   animator: {fileID: 4895570515032130512}
+  primaryRotationClip: {fileID: 8300000, guid: d38eeb1cde9814a4ebe30454944d7bdf, type: 3}
   secondaryShotClip: {fileID: 8300000, guid: 1ab2c759356f51d47bf314910334eb6b, type: 3}
 --- !u!114 &3643145098008548340
 MonoBehaviour:
