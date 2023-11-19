@@ -109,7 +109,9 @@ MonoBehaviour:
   primaryRotationSpeed: 30
   secondaryDuration: 3
   secondaryAnimation: {fileID: 7400000, guid: d537b8ac37d72954abdeebb3275e9958, type: 2}
-  animator: {fileID: 2653634179030454196}
+  primaryShotClip: {fileID: 8300000, guid: 9fbe7bb2f4a9fc04d83bd5e0e021c1ee, type: 3}
+  secondaryRotationClip: {fileID: 8300000, guid: d38eeb1cde9814a4ebe30454944d7bdf, type: 3}
+  secondaryImpactClip: {fileID: 8300000, guid: 30a235785a361b147888659f8622cb8d, type: 3}
 --- !u!114 &2905906989795579488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +161,7 @@ GameObject:
   - component: {fileID: 4319222020952690943}
   - component: {fileID: 7459779296391030809}
   - component: {fileID: 2653634179030454196}
+  - component: {fileID: 1385384443411601190}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -253,6 +256,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1385384443411601190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347023522667321333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99459c3ca72300c4da7edb2abeada23e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5281524606647107285
 PrefabInstance:
   m_ObjectHideFlags: 0

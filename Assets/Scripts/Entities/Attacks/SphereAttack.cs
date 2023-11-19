@@ -4,16 +4,24 @@ using UnityEngine;
 public class SphereAttack : AttackController
 {
     [SerializeField] private float primaryRotationSpeed;
-    private float primaryActualDistance;
     [SerializeField] private float secondaryDuration;
-    private bool isSecondaryFireActive;
     [SerializeField] private AnimationClip secondaryAnimation;
-    [SerializeField] private Animator animator;
+    [SerializeField] private AudioClip primaryShotClip;
+    [SerializeField] private AudioClip secondaryRotationClip;
+    [SerializeField] private AudioClip secondaryImpactClip;
+    private float primaryActualDistance;
+    private bool isSecondaryFireActive;
+    private Animator animator;
+    private SphereAnimation animationManager;
 
     protected override void Awake()
     {
         base.Awake();
         primaryActualDistance = -1;
+        animator = GetComponentInChildren<Animator>();
+        animationManager = GetComponentInChildren<SphereAnimation>();
+        animationManager.onRotationStart += PlayRotationSound;
+        animationManager.onImpactStart += PlayImpactSound;
     }
 
     public override void FirePrimaryInput()
@@ -21,6 +29,7 @@ public class SphereAttack : AttackController
         FirePrimary();
         inputChangeCallback(false, false, false);
         primaryActualDistance = 0;
+        AudioSource.PlayClipAtPoint(primaryShotClip, transform.position, 10);
         StartCoroutine(MovePlayerOnPrimaryFire());
     }
 
@@ -29,6 +38,16 @@ public class SphereAttack : AttackController
         inputChangeCallback(false, false, false);
         animator.Play(secondaryAnimation.name);
         StartCoroutine(WaitResetSecondaryCooldown());
+    }
+
+    private void PlayRotationSound()
+    {
+        AudioSource.PlayClipAtPoint(secondaryRotationClip, transform.position);
+    }
+
+    private void PlayImpactSound()
+    {
+        AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
     }
 
     protected override void OnPrimaryFireUpdate() { }
