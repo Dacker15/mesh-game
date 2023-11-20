@@ -1,35 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public sealed class GameManager : Singleton<GameManager>
 {
-    public Player player;
-    public Enemy enemy;
-    public List<PowerUp> spawnedPickUps;
-    public List<GameObject> powerUpSpawnPoints;
-    public List<PowerUpData> spawnablePowerUps;
-    public float pickUpCooldown = 20;
+    [SerializeField] public Player player;
+    [SerializeField] public Enemy enemy;
+    [SerializeField] public List<PowerUp> spawnedPickUps;
+    [SerializeField] public List<GameObject> powerUpSpawnPoints;
+    [SerializeField] public List<PowerUpData> spawnablePowerUps;
+    [SerializeField] public float pickUpCooldown;
     private float pickUpActualCooldown;
-    public float matchTime;
-
-    private void OnEnable()
-    {
-        GameEvents.onPlayerHit += HandlePlayerHit;
-        GameEvents.onEnemyHit += HandleEnemyHit;
-        GameEvents.onPowerUpPick += HandlePowerUpPick;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.onPlayerHit -= HandlePlayerHit;
-        GameEvents.onEnemyHit -= HandleEnemyHit;
-        GameEvents.onPowerUpPick -= HandlePowerUpPick;
-    } 
+    [SerializeField] public float matchTime;
+    [SerializeField] public float outsideDamage;
+    [SerializeField] public float attackInvulnerableTime;
+    [SerializeField] public float outsideInvulnerableTime;
     
     protected override void Awake()
     {
         base.Awake();
         pickUpActualCooldown = pickUpCooldown;
+        
+        GameEvents.onPlayerHit += HandlePlayerHit;
+        GameEvents.onEnemyHit += HandleEnemyHit;
+        GameEvents.onPowerUpPick += HandlePowerUpPick;
+        GameEvents.onPlayerOutside += HandlePlayerOutside;
+        GameEvents.onEnemyOutside += HandleEnemyOutside;
     }
     
     private void Update()
@@ -48,10 +44,19 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
+    private void OnDestroy()
+    {
+        GameEvents.onPlayerHit -= HandlePlayerHit;
+        GameEvents.onEnemyHit -= HandleEnemyHit;
+        GameEvents.onPowerUpPick -= HandlePowerUpPick;
+        GameEvents.onPlayerOutside -= HandlePlayerOutside;
+        GameEvents.onEnemyOutside -= HandleEnemyOutside;
+    }
+
     private void HandlePlayerHit(float damage)
     {
         float nextHealth = enemy.TakeDamage(damage);
-        enemy.MakeInvulnerable();
+        enemy.MakeInvulnerable(attackInvulnerableTime);
         Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
@@ -62,7 +67,7 @@ public sealed class GameManager : Singleton<GameManager>
     private void HandleEnemyHit(float damage)
     {
         float nextHealth = player.TakeDamage(damage);
-        player.MakeInvulnerable();
+        player.MakeInvulnerable(attackInvulnerableTime);
         Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
@@ -152,5 +157,22 @@ public sealed class GameManager : Singleton<GameManager>
     {
         Time.timeScale = 0;
         Debug.Log("Game ended");
+    }
+    
+    private void HandlePlayerOutside()
+    {
+        float nextHealth = player.TakeDamage(outsideDamage);
+        player.MakeInvulnerable(outsideInvulnerableTime);
+        player.transform.position = new Vector3(0, 0.5f, -20);
+        player.transform.rotation = Quaternion.Euler(0, 0, 0);
+        Debug.LogFormat("Player is outside, health is now {0}", nextHealth);
+    }
+    private void HandleEnemyOutside()
+    {
+        float nextHealth = enemy.TakeDamage(outsideDamage);
+        enemy.MakeInvulnerable(outsideInvulnerableTime);
+        player.transform.position = new Vector3(0, 0.5f, 20);
+        player.transform.rotation = Quaternion.Euler(0, 180, 0);
+        Debug.LogFormat("Enemy is outside, health is now {0}", nextHealth);
     }
 }

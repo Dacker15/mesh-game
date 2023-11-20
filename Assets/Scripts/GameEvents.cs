@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 
-public sealed class GameEvents : MonoBehaviour
+public delegate void HitHandler(float damage);
+public delegate void OutsideHandler();
+public delegate void PowerUpSpawnHandler(PowerUp powerUp);
+public delegate void PowerUpPickHandler(PowerUp powerUp, Collider other);
+
+public static class GameEvents
 {
-    public delegate void PlayerHitHandler(float damage);
-    public static event PlayerHitHandler onPlayerHit;
-    public delegate void EnemyHitHandler(float damage);
-    public static event EnemyHitHandler onEnemyHit;
-
-    public delegate void PowerUpSpawnHandler(PowerUp powerUp);
-
+    public static event HitHandler onPlayerHit;
+    public static event HitHandler onEnemyHit;
+    public static event OutsideHandler onPlayerOutside;
+    public static event OutsideHandler onEnemyOutside;
     public static event PowerUpSpawnHandler onPowerUpSpawn;
-
-    public delegate void PowerUpPickHandler(PowerUp powerUp, Collider other);
-
     public static event PowerUpPickHandler onPowerUpPick;
 
     public static void PlayerHit(float damage)
@@ -35,4 +34,13 @@ public sealed class GameEvents : MonoBehaviour
         onPowerUpPick?.Invoke(powerUp, collider);
     }
     
+    public static void PlayerOutside()
+    {
+        onPlayerOutside?.Invoke();
+    }
+
+    public static void EnemyOutside()
+    {
+        onEnemyOutside?.Invoke();
+    }
 }

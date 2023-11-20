@@ -1,11 +1,9 @@
-using System;
 using UnityEngine;
 
 public class LivingEntity : MonoBehaviour
 {
     [SerializeField] protected float health;
-    [SerializeField] protected float invulnerableCooldown;
-    protected float invulnerableActualCooldown;
+    private float invulnerableActualCooldown;
 
     public float TakeDamage(float damage)
     {
@@ -22,7 +20,7 @@ public class LivingEntity : MonoBehaviour
         return health;
     }
 
-    public void MakeInvulnerable()
+    public void MakeInvulnerable(float invulnerableCooldown)
     {
         invulnerableActualCooldown = invulnerableCooldown;
     }
