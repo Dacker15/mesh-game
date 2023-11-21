@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour
 {
-    [SerializeField] protected float health;
+    public float health;
     private float invulnerableActualCooldown;
 
     public float TakeDamage(float damage)
