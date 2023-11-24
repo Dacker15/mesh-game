@@ -28,7 +28,8 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
    public void HandleGamePlayerSelection(int type)
    {
       // Handle 0 for cube, 1 for sphere. Enums are not supported
-      Debug.LogFormat("Selected player {0}", type);
+      GameSettings.Instance.playerType = type;
+      StartCoroutine(LoadScene(gameScene));
    }
 
    public void HandleGameBack()

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    public AttackController player;
     [SerializeField] private TextMeshProUGUI playerPrimaryCooldownText;
     [SerializeField] private TextMeshProUGUI playerSecondaryCooldownText;
     [SerializeField] private Slider playerHealth;
@@ -66,8 +65,8 @@ public class UIManager : Singleton<UIManager>
     
     private void Update()
     {
-        playerPrimaryCooldownText.text = ParseCooldown(player.primaryActualCooldown, 0);
-        playerSecondaryCooldownText.text = ParseCooldown(player.secondaryActualCooldown, 0);
+        playerPrimaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.primaryActualCooldown, 0);
+        playerSecondaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.secondaryActualCooldown, 0);
         playerHealth.value = GameManager.Instance.player.health / 100;
         enemyHealth.value = GameManager.Instance.enemy.health / 100;
         playerHealthText.text = GameManager.Instance.player.health.ToString(CultureInfo.InvariantCulture);

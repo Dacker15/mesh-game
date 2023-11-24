@@ -4,8 +4,10 @@ using Random = UnityEngine.Random;
 
 public sealed class GameManager : Singleton<GameManager>
 {
-    [SerializeField] public Player player;
-    [SerializeField] public Enemy enemy;
+    public Player player;
+    public Enemy enemy;
+    public AttackController playerController;
+    public AttackController enemyController;
     [SerializeField] public List<PowerUp> spawnedPickUps;
     [SerializeField] public List<GameObject> powerUpSpawnPoints;
     [SerializeField] public List<PowerUpData> spawnablePowerUps;
@@ -15,6 +17,11 @@ public sealed class GameManager : Singleton<GameManager>
     [SerializeField] public float outsideDamage;
     [SerializeField] public float attackInvulnerableTime;
     [SerializeField] public float outsideInvulnerableTime;
+
+    private static Vector3 playerSpawnPosition = new Vector3(0, 0.5f, -20);
+    private static Vector3 enemySpawnPosition = new Vector3(0, 0.5f, 20);
+    private static Quaternion playerSpawnRotation = Quaternion.Euler(0, 0, 0);
+    private static Quaternion enemySpawnRotation = Quaternion.Euler(0, 180, 0);
     
     protected override void Awake()
     {
@@ -26,6 +33,25 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPowerUpPick += HandlePowerUpPick;
         GameEvents.onPlayerOutside += HandlePlayerOutside;
         GameEvents.onEnemyOutside += HandleEnemyOutside;
+
+        GameObject playerObject;
+        GameObject enemyObject;
+        
+        if (GameSettings.Instance.playerType == 0)
+        {
+            playerObject = Instantiate(GameSettings.Instance.cubePlayer, playerSpawnPosition, playerSpawnRotation);
+            enemyObject = Instantiate(GameSettings.Instance.cubeEnemy, enemySpawnPosition, enemySpawnRotation);
+        }
+        else
+        {
+            playerObject = Instantiate(GameSettings.Instance.spherePlayer, playerSpawnPosition, playerSpawnRotation);
+            enemyObject = Instantiate(GameSettings.Instance.sphereEnemy, enemySpawnPosition, enemySpawnRotation);
+        }
+
+        player = playerObject.GetComponent<Player>();
+        enemy = enemyObject.GetComponent<Enemy>();
+        playerController = playerObject.GetComponent<AttackController>();
+        enemyController = enemyObject.GetComponent<AttackController>();
     }
     
     private void Update()
