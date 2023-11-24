@@ -8,7 +8,19 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
 
    [SerializeField] private GameObject mainMenuPanel;
    [SerializeField] private GameObject gameSelectionPanel;
-   
+   [SerializeField] private GameObject tutorialSectionPanel;
+   [SerializeField] private GameObject cubeTutorialSectionPanel;
+   [SerializeField] private GameObject sphereTutorialSectionPanel;
+   [SerializeField] private GameObject powerUpTutorialSectionPanel;
+   [SerializeField] private GameObject creditPanel;
+   private GameObject[] panels;
+
+   protected override void Awake()
+   {
+      base.Awake();
+      panels = new GameObject[] { mainMenuPanel, gameSelectionPanel, tutorialSectionPanel, cubeTutorialSectionPanel, sphereTutorialSectionPanel, powerUpTutorialSectionPanel, creditPanel };
+   }
+
    private IEnumerator LoadScene(int indexScene)
    {
       AsyncOperation operation = SceneManager.LoadSceneAsync(indexScene);
@@ -19,10 +31,24 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
       }
    }
 
+   private void SetActivePanel(GameObject panel)
+   {
+      foreach (var currentPanel in panels)
+      {
+         if (currentPanel == panel)
+         {
+            currentPanel.SetActive(true);
+         }
+         else
+         {
+            currentPanel.SetActive(false);
+         }
+      }
+   }
+
    public void HandleStart()
    {
-      mainMenuPanel.SetActive(false);
-      gameSelectionPanel.SetActive(true);
+      SetActivePanel(gameSelectionPanel);
    }
 
    public void HandleGamePlayerSelection(int type)
@@ -32,20 +58,38 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
       StartCoroutine(LoadScene(gameScene));
    }
 
-   public void HandleGameBack()
+   public void HandleMenu()
    {
-      gameSelectionPanel.SetActive(false);
-      mainMenuPanel.SetActive(true);
+      SetActivePanel(mainMenuPanel);
    }
 
    public void HandleTutorial()
    {
-      Debug.Log("Show tutorial panel");
+      SetActivePanel(tutorialSectionPanel);
+   }
+
+   public void HandleTutorialSection(int index)
+   {
+      GameObject panel;
+      switch (index)
+      {
+         case 0:
+            panel = cubeTutorialSectionPanel;
+            break;
+         case 1:
+            panel = sphereTutorialSectionPanel;
+            break;
+         case 2:
+         default:
+            panel = powerUpTutorialSectionPanel;
+            break;
+      }
+      SetActivePanel(panel);
    }
 
    public void HandleCredits()
    {
-      Debug.Log("Show credit panel");
+      SetActivePanel(creditPanel);
    }
 
    public void HandleQuit()
