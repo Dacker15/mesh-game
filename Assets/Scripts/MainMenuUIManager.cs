@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuUIManager : Singleton<MainMenuUIManager>
 {
@@ -13,20 +14,32 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
    [SerializeField] private GameObject sphereTutorialSectionPanel;
    [SerializeField] private GameObject powerUpTutorialSectionPanel;
    [SerializeField] private GameObject creditPanel;
+
+   [SerializeField] private GameObject loadingPanel;
+   [SerializeField] private Slider loadingSlider;
+
+   [SerializeField] private AudioSource musicAudioSource;
+   
    private GameObject[] panels;
 
    protected override void Awake()
    {
       base.Awake();
-      panels = new GameObject[] { mainMenuPanel, gameSelectionPanel, tutorialSectionPanel, cubeTutorialSectionPanel, sphereTutorialSectionPanel, powerUpTutorialSectionPanel, creditPanel };
+      panels = new GameObject[] { 
+         mainMenuPanel, gameSelectionPanel, tutorialSectionPanel, cubeTutorialSectionPanel, 
+         sphereTutorialSectionPanel, powerUpTutorialSectionPanel, creditPanel, loadingPanel,
+      };
    }
-
    private IEnumerator LoadScene(int indexScene)
    {
+      SetActivePanel(loadingPanel);
+      musicAudioSource.Pause();
+      yield return new WaitForSeconds(0.5f);
       AsyncOperation operation = SceneManager.LoadSceneAsync(indexScene);
       while (operation.isDone == false)
       {
-         // float progress = Mathf.Clamp01(operation.progress / .9f);
+         float progress = Mathf.Clamp01(operation.progress / .9f);
+         loadingSlider.value = progress;
          yield return null;
       }
    }
