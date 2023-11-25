@@ -4,6 +4,7 @@ public delegate void HitHandler(float damage);
 public delegate void OutsideHandler();
 public delegate void PowerUpSpawnHandler(PowerUp powerUp);
 public delegate void PowerUpPickHandler(PowerUp powerUp, Collider other);
+public delegate void GameStatusHandler();
 
 public static class GameEvents
 {
@@ -13,6 +14,9 @@ public static class GameEvents
     public static event OutsideHandler onEnemyOutside;
     public static event PowerUpSpawnHandler onPowerUpSpawn;
     public static event PowerUpPickHandler onPowerUpPick;
+    public static event GameStatusHandler onPlay;
+    public static event GameStatusHandler onPause;
+    public static event GameStatusHandler onEnd;
 
     public static void PlayerHit(float damage)
     {
@@ -42,5 +46,20 @@ public static class GameEvents
     public static void EnemyOutside()
     {
         onEnemyOutside?.Invoke();
+    }
+
+    public static void GamePlay()
+    {
+        onPlay?.Invoke();
+    }
+
+    public static void GamePause()
+    {
+        onPause?.Invoke();
+    }
+
+    public static void GameEnd()
+    {
+        onEnd?.Invoke();
     }
 }

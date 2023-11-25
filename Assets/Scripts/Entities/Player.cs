@@ -5,6 +5,8 @@ public class Player : PlayableEntity
 {
     [SerializeField] private float speed;
 
+    private bool isPaused;
+
 
     protected override void OnFirePrimarySuccess(float damage)
     {
@@ -48,6 +50,23 @@ public class Player : PlayableEntity
         controller.secondaryActualCooldown /= value;
     }
 
+    private void HandlePlay()
+    {
+        isPaused = false;
+    }
+
+    private void HandlePause()
+    {
+        isPaused = true;   
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        GameEvents.onPlay += HandlePlay;
+        GameEvents.onPause += HandlePause;
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -62,13 +81,19 @@ public class Player : PlayableEntity
             transform.Rotate(0, Input.GetAxisRaw("Horizontal") * 0.75f, 0);   
         }
 
-        if (Input.GetAxisRaw("Fire1") > 0 && controller.isPrimaryFireReady() && isInputActive)
+        if (Input.GetAxisRaw("Fire1") > 0 && controller.isPrimaryFireReady() && isInputActive && !isPaused)
         {
             FirePrimary();
         }
-        else if (Input.GetAxisRaw("Fire2") > 0 && controller.isSecondaryFireReady() && isInputActive)
+        else if (Input.GetAxisRaw("Fire2") > 0 && controller.isSecondaryFireReady() && isInputActive && !isPaused)
         {
             FireSecondary();
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.onPlay -= HandlePlay;
+        GameEvents.onPause -= HandlePause;
     }
 }

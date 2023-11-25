@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : Singleton<UIManager>
+public class GameUIManager : Singleton<GameUIManager>
 {
     [SerializeField] private TextMeshProUGUI playerPrimaryCooldownText;
     [SerializeField] private TextMeshProUGUI playerSecondaryCooldownText;
@@ -19,6 +19,11 @@ public class UIManager : Singleton<UIManager>
     private List<PowerUp> enemyBoosts;
     [SerializeField] private TextMeshProUGUI enemyBoostText;
     [SerializeField] private TextMeshProUGUI matchTimeText;
+    
+    [SerializeField] public GameObject uiPanel;
+    [SerializeField] public GameObject pausePanel;
+
+    private GameObject[] panels;
 
     private string ParseCooldown(float value, float threshold)
     {
@@ -54,11 +59,32 @@ public class UIManager : Singleton<UIManager>
         powerUps.Add(powerUp);
         StartCoroutine(RemoveBoost(powerUps, powerUp));
     }
+
+    private void HandlePlay()
+    {
+        uiPanel.SetActive(true);
+        pausePanel.SetActive(false);
+    }
+
+    private void HandlePause()
+    {
+        uiPanel.SetActive(false);
+        pausePanel.SetActive(true);
+    }
+
+    public void HandlePausePress()
+    {
+        GameEvents.GamePlay();
+    }
     
     protected override void Awake()
     {
         base.Awake();
+        
         GameEvents.onPowerUpPick += HandlePowerUpPick;
+        GameEvents.onPlay += HandlePlay;
+        GameEvents.onPause += HandlePause;
+        
         playerBoosts = new List<PowerUp>();
         enemyBoosts = new List<PowerUp>();
     }
@@ -82,5 +108,7 @@ public class UIManager : Singleton<UIManager>
     private void OnDestroy()
     {
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
+        GameEvents.onPlay -= HandlePlay;
+        GameEvents.onPause -= HandlePause;
     }
 }

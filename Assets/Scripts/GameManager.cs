@@ -17,6 +17,7 @@ public sealed class GameManager : Singleton<GameManager>
     [SerializeField] public float outsideDamage;
     [SerializeField] public float attackInvulnerableTime;
     [SerializeField] public float outsideInvulnerableTime;
+    private bool isPaused;
 
     private static Vector3 playerSpawnPosition = new Vector3(0, 0.5f, -20);
     private static Vector3 enemySpawnPosition = new Vector3(0, 0.5f, 20);
@@ -33,6 +34,9 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPowerUpPick += HandlePowerUpPick;
         GameEvents.onPlayerOutside += HandlePlayerOutside;
         GameEvents.onEnemyOutside += HandleEnemyOutside;
+        GameEvents.onPlay += HandleTimeStart;
+        GameEvents.onPause += HandleTimeStop;
+        GameEvents.onEnd += HandleTimeStop;
 
         GameObject playerObject;
         GameObject enemyObject;
@@ -58,6 +62,21 @@ public sealed class GameManager : Singleton<GameManager>
     {
         pickUpActualCooldown -= Time.deltaTime;
         matchTime -= Time.deltaTime;
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+            {
+                GameEvents.GamePlay();
+            }
+            else
+            {
+                GameEvents.GamePause();   
+            }
+
+            isPaused = !isPaused;
+        }
+        
         if (pickUpActualCooldown < 0)
         {
             pickUpActualCooldown = pickUpCooldown;
@@ -66,7 +85,7 @@ public sealed class GameManager : Singleton<GameManager>
 
         if (matchTime < 0)
         {
-            HandleGameEnd();
+            GameEvents.GameEnd();
         }
     }
 
@@ -77,6 +96,9 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
         GameEvents.onPlayerOutside -= HandlePlayerOutside;
         GameEvents.onEnemyOutside -= HandleEnemyOutside;
+        GameEvents.onPlay -= HandleTimeStart;
+        GameEvents.onPause -= HandleTimeStop;
+        GameEvents.onEnd -= HandleTimeStop;
     }
 
     private void HandlePlayerHit(float damage)
@@ -86,7 +108,7 @@ public sealed class GameManager : Singleton<GameManager>
         Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
-            HandleGameEnd();
+            GameEvents.GameEnd();
         }
     }
 
@@ -97,7 +119,7 @@ public sealed class GameManager : Singleton<GameManager>
         Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
-            HandleGameEnd();
+            GameEvents.GameEnd();
         }
     }
 
@@ -179,10 +201,14 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
-    private void HandleGameEnd()
+    private void HandleTimeStart()
+    {
+        Time.timeScale = 1;
+    }
+
+    private void HandleTimeStop()
     {
         Time.timeScale = 0;
-        Debug.Log("Game ended");
     }
     
     private void HandlePlayerOutside()
