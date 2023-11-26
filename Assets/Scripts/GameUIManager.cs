@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUIManager : Singleton<GameUIManager>
@@ -20,10 +21,18 @@ public class GameUIManager : Singleton<GameUIManager>
     [SerializeField] private TextMeshProUGUI enemyBoostText;
     [SerializeField] private TextMeshProUGUI matchTimeText;
     
-    [SerializeField] public GameObject uiPanel;
-    [SerializeField] public GameObject pausePanel;
+    [SerializeField] private GameObject uiPanel;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject endGamePanel;
+    [SerializeField] private TextMeshProUGUI endGameText;
+    [SerializeField] private GameObject loadingPanel;
+    [SerializeField] private Slider loadingSlider;
 
     private GameObject[] panels;
+
+    private static string winningText = "You won";
+    private static string oddText = "Odd";
+    private static string lostText = "You lost";
 
     private string ParseCooldown(float value, float threshold)
     {
@@ -62,19 +71,50 @@ public class GameUIManager : Singleton<GameUIManager>
 
     private void HandlePlay()
     {
-        uiPanel.SetActive(true);
-        pausePanel.SetActive(false);
+        GeneralUI.SetActivePanel(panels, uiPanel);
     }
 
     private void HandlePause()
     {
-        uiPanel.SetActive(false);
-        pausePanel.SetActive(true);
+        GeneralUI.SetActivePanel(panels, pausePanel);
     }
 
     public void HandlePausePress()
     {
         GameEvents.GamePlay();
+    }
+
+    public void HandleGameEndPress()
+    {
+        StartCoroutine(LoadScene(0));
+    }
+
+    private void HandleEnd(EndGameWinner winner)
+    {
+        GeneralUI.SetActivePanel(panels, endGamePanel);
+        switch (winner)
+        {
+            case EndGameWinner.NONE:
+                endGameText.text = oddText;
+                break;
+            case EndGameWinner.PLAYER:
+                endGameText.text = winningText;
+                break;
+            case EndGameWinner.ENEMY:
+                endGameText.text = lostText;
+                break;
+        }
+    }
+    
+    private IEnumerator LoadScene(int indexScene)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(indexScene);
+        while (operation.isDone == false)
+        {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            loadingSlider.value = progress;
+            yield return null;
+        }
     }
     
     protected override void Awake()
@@ -84,9 +124,12 @@ public class GameUIManager : Singleton<GameUIManager>
         GameEvents.onPowerUpPick += HandlePowerUpPick;
         GameEvents.onPlay += HandlePlay;
         GameEvents.onPause += HandlePause;
+        GameEvents.onEnd += HandleEnd;
         
         playerBoosts = new List<PowerUp>();
         enemyBoosts = new List<PowerUp>();
+
+        panels = new GameObject[] { uiPanel, pausePanel, endGamePanel, loadingPanel };
     }
     
     private void Update()
@@ -110,5 +153,6 @@ public class GameUIManager : Singleton<GameUIManager>
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
         GameEvents.onPlay -= HandlePlay;
         GameEvents.onPause -= HandlePause;
+        GameEvents.onEnd -= HandleEnd;
     }
 }

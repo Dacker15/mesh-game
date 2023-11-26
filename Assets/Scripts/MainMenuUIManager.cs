@@ -32,7 +32,7 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
    }
    private IEnumerator LoadScene(int indexScene)
    {
-      SetActivePanel(loadingPanel);
+      GeneralUI.SetActivePanel(panels, loadingPanel);
       musicAudioSource.Pause();
       yield return new WaitForSeconds(0.5f);
       AsyncOperation operation = SceneManager.LoadSceneAsync(indexScene);
@@ -44,24 +44,9 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
       }
    }
 
-   private void SetActivePanel(GameObject panel)
-   {
-      foreach (var currentPanel in panels)
-      {
-         if (currentPanel == panel)
-         {
-            currentPanel.SetActive(true);
-         }
-         else
-         {
-            currentPanel.SetActive(false);
-         }
-      }
-   }
-
    public void HandleStart()
    {
-      SetActivePanel(gameSelectionPanel);
+      GeneralUI.SetActivePanel(panels, gameSelectionPanel);
    }
 
    public void HandleGamePlayerSelection(int type)
@@ -73,12 +58,12 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
 
    public void HandleMenu()
    {
-      SetActivePanel(mainMenuPanel);
+      GeneralUI.SetActivePanel(panels, mainMenuPanel);
    }
 
    public void HandleTutorial()
    {
-      SetActivePanel(tutorialSectionPanel);
+      GeneralUI.SetActivePanel(panels, tutorialSectionPanel);
    }
 
    public void HandleTutorialSection(int index)
@@ -97,12 +82,12 @@ public class MainMenuUIManager : Singleton<MainMenuUIManager>
             panel = powerUpTutorialSectionPanel;
             break;
       }
-      SetActivePanel(panel);
+      GeneralUI.SetActivePanel(panels, panel);
    }
 
    public void HandleCredits()
    {
-      SetActivePanel(creditPanel);
+      GeneralUI.SetActivePanel(panels, creditPanel);
    }
 
    public void HandleQuit()

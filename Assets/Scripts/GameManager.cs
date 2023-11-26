@@ -35,8 +35,8 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPlayerOutside += HandlePlayerOutside;
         GameEvents.onEnemyOutside += HandleEnemyOutside;
         GameEvents.onPlay += HandleTimeStart;
-        GameEvents.onPause += HandleTimeStop;
-        GameEvents.onEnd += HandleTimeStop;
+        GameEvents.onPause += HandleTimePause;
+        GameEvents.onEnd += HandleGameEnd;
 
         GameObject playerObject;
         GameObject enemyObject;
@@ -85,7 +85,7 @@ public sealed class GameManager : Singleton<GameManager>
 
         if (matchTime < 0)
         {
-            GameEvents.GameEnd();
+            GameEvents.GameEnd(EndGameWinner.NONE);
         }
     }
 
@@ -97,8 +97,8 @@ public sealed class GameManager : Singleton<GameManager>
         GameEvents.onPlayerOutside -= HandlePlayerOutside;
         GameEvents.onEnemyOutside -= HandleEnemyOutside;
         GameEvents.onPlay -= HandleTimeStart;
-        GameEvents.onPause -= HandleTimeStop;
-        GameEvents.onEnd -= HandleTimeStop;
+        GameEvents.onPause -= HandleTimePause;
+        GameEvents.onEnd -= HandleGameEnd;
     }
 
     private void HandlePlayerHit(float damage)
@@ -108,7 +108,7 @@ public sealed class GameManager : Singleton<GameManager>
         Debug.LogFormat("Enemy got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
-            GameEvents.GameEnd();
+            GameEvents.GameEnd(EndGameWinner.PLAYER);
         }
     }
 
@@ -119,7 +119,7 @@ public sealed class GameManager : Singleton<GameManager>
         Debug.LogFormat("Player got hit, health is now {0}", nextHealth);
         if (nextHealth <= 0)
         {
-            GameEvents.GameEnd();
+            GameEvents.GameEnd(EndGameWinner.ENEMY);
         }
     }
 
@@ -206,9 +206,23 @@ public sealed class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
     }
 
-    private void HandleTimeStop()
+    private void HandleTimePause()
     {
         Time.timeScale = 0;
+    }
+
+    private void HandleGameEnd(EndGameWinner winner)
+    {
+        Time.timeScale = 0;
+        switch (winner)
+        {
+            case EndGameWinner.PLAYER:
+                player.gameObject.SetActive(false);
+                break;
+            case EndGameWinner.ENEMY:
+                enemy.gameObject.SetActive(false);
+                break;
+        }
     }
     
     private void HandlePlayerOutside()

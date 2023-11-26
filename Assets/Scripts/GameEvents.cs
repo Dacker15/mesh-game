@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
 
+public enum EndGameWinner
+{
+    NONE,
+    PLAYER,
+    ENEMY,
+}
+
 public delegate void HitHandler(float damage);
 public delegate void OutsideHandler();
 public delegate void PowerUpSpawnHandler(PowerUp powerUp);
 public delegate void PowerUpPickHandler(PowerUp powerUp, Collider other);
 public delegate void GameStatusHandler();
+public delegate void GameEndHandler(EndGameWinner winner);
 
 public static class GameEvents
 {
@@ -16,7 +24,7 @@ public static class GameEvents
     public static event PowerUpPickHandler onPowerUpPick;
     public static event GameStatusHandler onPlay;
     public static event GameStatusHandler onPause;
-    public static event GameStatusHandler onEnd;
+    public static event GameEndHandler onEnd;
 
     public static void PlayerHit(float damage)
     {
@@ -58,8 +66,8 @@ public static class GameEvents
         onPause?.Invoke();
     }
 
-    public static void GameEnd()
+    public static void GameEnd(EndGameWinner winner)
     {
-        onEnd?.Invoke();
+        onEnd?.Invoke(winner);
     }
 }

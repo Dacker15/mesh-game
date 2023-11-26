@@ -13,19 +13,24 @@ public class GameMusicManager : Singleton<GameMusicManager>
     {
         backgroundMusic.Pause();
     }
+
+    private void HandleMusicEnd(EndGameWinner winner)
+    {
+        backgroundMusic.Stop();
+    }
     
     protected override void Awake()
     {
         base.Awake();
         GameEvents.onPlay += HandleMusicPlay;
         GameEvents.onPause += HandleMusicPause;
-        GameEvents.onEnd += HandleMusicPause;
+        GameEvents.onEnd += HandleMusicEnd;
     }
 
     private void OnDestroy()
     {
         GameEvents.onPlay -= HandleMusicPlay;
         GameEvents.onPause -= HandleMusicPause;
-        GameEvents.onEnd -= HandleMusicPause;
+        GameEvents.onEnd -= HandleMusicEnd;
     }
 }
