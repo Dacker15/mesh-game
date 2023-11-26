@@ -624,7 +624,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   playerController: {fileID: 0}
   enemyController: {fileID: 0}
-  spawnedPickUps: []
+  spawnedPickUp: {fileID: 0}
   powerUpSpawnPoints:
   - {fileID: 1978061025}
   - {fileID: 1055765364}
@@ -702,10 +702,10 @@ MonoBehaviour:
     BoostValue: 0.75
     TimeValue: 0
     level: 3
-  pickUpCooldown: 30
+  pickUpCooldown: 10
   matchTime: 180
   outsideDamage: 1
-  attackInvulnerableTime: 3
+  attackInvulnerableTime: 2
   outsideInvulnerableTime: 1
 --- !u!4 &128390491
 Transform:

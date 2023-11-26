@@ -53,7 +53,7 @@ public abstract class AttackController : MonoBehaviour
         {
             GameObject enemy = GameObject.FindGameObjectWithTag(opponentTag);
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            return Math.Abs(distance) < fireRadius;
+            return distance < fireRadius;
         }
         else
         {

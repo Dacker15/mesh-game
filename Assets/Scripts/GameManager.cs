@@ -8,7 +8,7 @@ public sealed class GameManager : Singleton<GameManager>
     public Enemy enemy;
     public AttackController playerController;
     public AttackController enemyController;
-    [SerializeField] public List<PowerUp> spawnedPickUps;
+    [SerializeField] public PowerUp spawnedPickUp;
     [SerializeField] public List<GameObject> powerUpSpawnPoints;
     [SerializeField] public List<PowerUpData> spawnablePowerUps;
     [SerializeField] public float pickUpCooldown;
@@ -77,7 +77,7 @@ public sealed class GameManager : Singleton<GameManager>
             isPaused = !isPaused;
         }
         
-        if (pickUpActualCooldown < 0)
+        if (pickUpActualCooldown < 0 && spawnedPickUp == null)
         {
             pickUpActualCooldown = pickUpCooldown;
             SpawnPowerUp();
@@ -125,7 +125,7 @@ public sealed class GameManager : Singleton<GameManager>
 
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)
     {
-        spawnedPickUps.Remove(powerUp);
+        spawnedPickUp = null;
         PlayableEntity playableEntity = other.CompareTag("Player") ? player : enemy;
         switch (powerUp.type)
         {
@@ -192,7 +192,7 @@ public sealed class GameManager : Singleton<GameManager>
                 PowerUp powerUpComponent = PowerUp.CreateComponent(pickUpGameObject, 0, powerUpData.Type, powerUpData.BoostValue, powerUpData.TimeValue);
                 SphereCollider collider = pickUpGameObject.GetComponent<SphereCollider>();
                 collider.isTrigger = true;
-                spawnedPickUps.Add(powerUpComponent);
+                spawnedPickUp = powerUpComponent;
                 pickUpGameObject.transform.position = selectedPowerUpSpawn.transform.position;
                 Instantiate(pickUpGameObject);
                 GameEvents.PowerUpSpawn(powerUpComponent);

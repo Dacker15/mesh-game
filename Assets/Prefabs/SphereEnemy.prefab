@@ -99,8 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryDamage: 5
   secondaryDamage: 8
-  primaryCooldown: 5
-  secondaryCooldown: 10
+  primaryCooldown: 3
+  secondaryCooldown: 6
   primaryFireRadius: 15
   secondaryFireRadius: 4
   primaryFireType: 1
@@ -125,8 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  invulnerableCooldown: 3
+  invulnerableActualCooldown: 0
   controller: {fileID: 4293833893656609337}
+  alternativePointThreshold: 10
 --- !u!195 &5529896514343397915
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -137,7 +138,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

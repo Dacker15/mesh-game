@@ -3,7 +3,7 @@ using UnityEngine;
 public class LivingEntity : MonoBehaviour
 {
     public float health;
-    private float invulnerableActualCooldown;
+    public float invulnerableActualCooldown;
 
     public float TakeDamage(float damage)
     {

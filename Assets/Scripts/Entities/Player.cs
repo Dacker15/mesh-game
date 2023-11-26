@@ -10,6 +10,7 @@ public class Player : PlayableEntity
 
     protected override void OnFirePrimarySuccess(float damage)
     {
+        Debug.Log("Primary success for player");
         GameEvents.PlayerHit(damage);
     }
 
@@ -24,7 +25,6 @@ public class Player : PlayableEntity
         speed *= value;
         yield return new WaitForSeconds(time);
         speed = originalSpeed;
-        yield return null;
     }
 
     public override IEnumerator DamagePowerUp(float value, float time)
@@ -36,7 +36,6 @@ public class Player : PlayableEntity
         yield return new WaitForSeconds(time);
         controller.primaryDamage = originalPrimaryDamage;
         controller.secondaryDamage = originalSecondaryDamage;
-        yield return null;
     }
 
     public override void HealPowerUp(float value)

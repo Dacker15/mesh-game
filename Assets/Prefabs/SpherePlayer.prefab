@@ -98,8 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryDamage: 5
   secondaryDamage: 8
-  primaryCooldown: 5
-  secondaryCooldown: 10
+  primaryCooldown: 3
+  secondaryCooldown: 6
   primaryFireRadius: 15
   secondaryFireRadius: 4
   primaryFireType: 1
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  invulnerableCooldown: 3
+  invulnerableActualCooldown: 0
   controller: {fileID: 5165520365774704251}
   speed: 5
 --- !u!1 &2978713385725274253

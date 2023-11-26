@@ -9,24 +9,34 @@ public class Enemy : PlayableEntity
     private float attackCooldown;
     private NavMeshAgent agent;
     private PowerUp nearestPowerUp;
+    private PowerUp latestPowerUp;
     private short nextAbilityToUse;
     private short abilityUsedCount;
     private short impreciseShotCount;
     private short powerUpManagementCount;
+    private Vector3[] corners;
 
     protected override void Awake()
     {
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
-        GameEvents.onPowerUpSpawn += HandlePowerUpSpawn;
+        GameEvents.onPowerUpSpawn += HandlePowerUpFollow;
         GameEvents.onPowerUpPick += HandlePowerUpPick;
         nextAbilityToUse = (short)Random.Range(1, 2);
         abilityUsedCount = 0;
+        
+        corners = new Vector3[]
+        {
+            new Vector3(25, 0, 25),
+            new Vector3(25, 0, -25),
+            new Vector3(-25, 0, 25),
+            new Vector3(-25, 0, -25),
+        };
     }
 
     private void OnDestroy()
     {
-        GameEvents.onPowerUpSpawn -= HandlePowerUpSpawn;
+        GameEvents.onPowerUpSpawn -= HandlePowerUpFollow;
         GameEvents.onPowerUpPick -= HandlePowerUpPick;
     }
 
@@ -46,7 +56,6 @@ public class Enemy : PlayableEntity
         agent.speed *= value;
         yield return new WaitForSeconds(time);
         agent.speed = originalSpeed;
-        yield return null;
     }
 
     public override IEnumerator DamagePowerUp(float value, float time)
@@ -58,7 +67,6 @@ public class Enemy : PlayableEntity
         yield return new WaitForSeconds(time);
         controller.primaryDamage = originalPrimaryDamage;
         controller.secondaryDamage = originalSecondaryDamage;
-        yield return null;
     }
 
     public override void HealPowerUp(float value)
@@ -73,34 +81,33 @@ public class Enemy : PlayableEntity
         controller.secondaryActualCooldown *= nextValue;
     }
 
-    private void HandlePowerUpSpawn(PowerUp powerUp)
+    private void HandlePowerUpFollow(PowerUp powerUp)
     {
-        float pickProbabilityStartRange = Math.Min(10 * powerUpManagementCount, 50);
-        float pickProbability = Random.Range(pickProbabilityStartRange, 100);
-        if (pickProbability <= 50)
+        latestPowerUp = powerUp;
+        
+        Vector3 enemyPosition = transform.position;
+        Vector3 playerPosition = GameManager.Instance.player.transform.position;
+        Vector3 prevPowerUpPosition = nearestPowerUp != null ? nearestPowerUp.transform.position : Vector3.positiveInfinity;
+        Vector3 nextPowerUpPosition = powerUp.transform.position;
+ 
+        bool isNextNearest = Vector3.Distance(nextPowerUpPosition, enemyPosition) < Vector3.Distance(prevPowerUpPosition, enemyPosition);
+        bool isPlayerNearestToNextThanEnemy = Vector3.Distance(nextPowerUpPosition, playerPosition) < Vector3.Distance(nextPowerUpPosition, enemyPosition);
+        if (isNextNearest && !isPlayerNearestToNextThanEnemy)
         {
-            if (nearestPowerUp == null)
-            {
-                nearestPowerUp = powerUp;
-            }
-            else
-            {
-                Vector3 position = transform.position;
-                float prevDistance = Vector3.Distance(nearestPowerUp.transform.position, position);
-                float nextDistance = Vector3.Distance(powerUp.transform.position, position);
-                if (nextDistance < prevDistance)
-                {
-                    nearestPowerUp = powerUp;
-                }
-            }
-
-            powerUpManagementCount += 1;
+            nearestPowerUp = powerUp;
+        } 
+        else if (isNextNearest)
+        {
+            nearestPowerUp = null;
+        } 
+        else if (isPlayerNearestToNextThanEnemy)
+        {
+            Debug.Log("Continue follow prev power up");
         }
         else
         {
-            powerUpManagementCount -= 1;
+            nearestPowerUp = null;
         }
-        
     }
 
     private void HandlePowerUpPick(PowerUp powerUp, Collider other)
@@ -108,6 +115,10 @@ public class Enemy : PlayableEntity
         if (nearestPowerUp != null && powerUp.id == nearestPowerUp.id)
         {
             nearestPowerUp = null;
+        }
+        if (latestPowerUp != null && powerUp.id == latestPowerUp.id)
+        {
+            latestPowerUp = null;
         }
     }
 
@@ -203,6 +214,41 @@ public class Enemy : PlayableEntity
         return bestPoint;
     }
 
+    private bool IsCloseToCorner(Vector3 position)
+    {
+        foreach (Vector3 corner in corners)
+        {
+            if (Vector3.Distance(position, corner) < 5)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Vector3 GoToNearestCorner()
+    {
+        Vector3 position = transform.position;
+        Vector3 nearestCorner = Vector3.zero;
+        float minDistance = float.PositiveInfinity;
+        foreach (Vector3 corner in corners)
+        {
+            float distance = Vector3.Distance(position, corner);
+            if (distance < 5)
+            {
+                break;
+            }
+            if (minDistance > distance)
+            {
+                minDistance = distance;
+                nearestCorner = corner;
+            }
+        }
+
+        return nearestCorner;
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -246,24 +292,44 @@ public class Enemy : PlayableEntity
         // Escape in other case
         else
         {
-            float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.primaryFireRadius, GameManager.Instance.player.controller.secondaryFireRadius);
-            Vector3 position = transform.position;
-            Vector3 directionAwayFromPlayer = position - GameManager.Instance.player.transform.position;
-            Vector3 destination = position + directionAwayFromPlayer.normalized * maxFireRadius;
-
-            // Verifying that final destination is valid
-            if (NavMesh.SamplePosition(destination, out var navHit, maxFireRadius, NavMesh.AllAreas))
+            if (latestPowerUp != null)
             {
-                setAgentDestination(navHit.position);
+                HandlePowerUpFollow(latestPowerUp);   
             }
-            else
+            if (nearestPowerUp == null)
             {
-                // If point not valid, find best escape route
-                Vector3 bestValidPoint = FindBestValidPoint();
-                if (bestValidPoint != Vector3.zero)
+                float maxFireRadius = Mathf.Max(GameManager.Instance.player.controller.primaryFireRadius, GameManager.Instance.player.controller.secondaryFireRadius);
+                Vector3 position = transform.position;
+                Vector3 directionAwayFromPlayer = position - GameManager.Instance.player.transform.position;
+                Vector3 destination = position + directionAwayFromPlayer.normalized * maxFireRadius;
+
+                // Verifying that final destination is valid
+                if (NavMesh.SamplePosition(destination, out var navHit, maxFireRadius, NavMesh.AllAreas))
                 {
-                    setAgentDestination(bestValidPoint);
+                    if (!IsCloseToCorner(navHit.position))
+                    {
+                        setAgentDestination(navHit.position);   
+                    }
+                    else
+                    {
+                        GoToNearestCorner();
+                    }
                 }
+                else
+                {
+                    if (IsCloseToCorner(transform.position))
+                    {
+                        GoToNearestCorner();
+                    }
+                    else
+                    {
+                        Vector3 bestValidPoint = FindBestValidPoint();
+                        if (bestValidPoint != Vector3.zero)
+                        {
+                            setAgentDestination(bestValidPoint);
+                        }   
+                    }
+                }   
             }
         }
     }
