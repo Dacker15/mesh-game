@@ -184,7 +184,7 @@ MonoBehaviour:
   secondaryDamage: 5
   primaryCooldown: 3
   secondaryCooldown: 6
-  primaryFireRadius: 3
+  primaryFireRadius: 4
   secondaryFireRadius: 25
   primaryFireType: 0
   secondaryFireType: 1
@@ -208,7 +208,6 @@ MonoBehaviour:
   health: 100
   invulnerableActualCooldown: 0
   controller: {fileID: 3833100206425067648}
-  alternativePointThreshold: 10
 --- !u!195 &2506371838569339489
 NavMeshAgent:
   m_ObjectHideFlags: 0

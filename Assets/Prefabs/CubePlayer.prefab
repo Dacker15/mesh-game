@@ -220,7 +220,7 @@ MonoBehaviour:
   secondaryDamage: 5
   primaryCooldown: 3
   secondaryCooldown: 6
-  primaryFireRadius: 3
+  primaryFireRadius: 4
   secondaryFireRadius: 25
   primaryFireType: 0
   secondaryFireType: 1
