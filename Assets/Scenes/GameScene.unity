@@ -651,7 +651,7 @@ MonoBehaviour:
   - MinProbability: 40
     MaxProbability: 60
     Type: 3
-    BoostValue: 2
+    BoostValue: 0.5
     TimeValue: 0
     level: 1
   - MinProbability: 60
@@ -663,7 +663,7 @@ MonoBehaviour:
   - MinProbability: 67
     MaxProbability: 74
     Type: 1
-    BoostValue: 30
+    BoostValue: 5
     TimeValue: 0
     level: 2
   - MinProbability: 74
@@ -675,7 +675,7 @@ MonoBehaviour:
   - MinProbability: 81
     MaxProbability: 88
     Type: 3
-    BoostValue: 2.5
+    BoostValue: 0.625
     TimeValue: 0
     level: 2
   - MinProbability: 88
@@ -687,7 +687,7 @@ MonoBehaviour:
   - MinProbability: 91
     MaxProbability: 94
     Type: 1
-    BoostValue: 60
+    BoostValue: 10
     TimeValue: 0
     level: 3
   - MinProbability: 94
@@ -699,11 +699,11 @@ MonoBehaviour:
   - MinProbability: 97
     MaxProbability: 100
     Type: 3
-    BoostValue: 3
+    BoostValue: 0.75
     TimeValue: 0
     level: 3
-  pickUpCooldown: 10
-  matchTime: 10
+  pickUpCooldown: 30
+  matchTime: 180
   outsideDamage: 1
   attackInvulnerableTime: 3
   outsideInvulnerableTime: 1

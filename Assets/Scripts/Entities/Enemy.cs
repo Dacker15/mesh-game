@@ -68,8 +68,9 @@ public class Enemy : PlayableEntity
 
     public override void CooldownPowerUp(float value)
     {
-        controller.primaryActualCooldown /= value;
-        controller.secondaryActualCooldown /= value;
+        float nextValue = 1 - value;
+        controller.primaryActualCooldown *= nextValue;
+        controller.secondaryActualCooldown *= nextValue;
     }
 
     private void HandlePowerUpSpawn(PowerUp powerUp)
