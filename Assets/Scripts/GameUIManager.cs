@@ -20,6 +20,9 @@ public class GameUIManager : Singleton<GameUIManager>
     private List<PowerUp> enemyBoosts;
     [SerializeField] private TextMeshProUGUI enemyBoostText;
     [SerializeField] private TextMeshProUGUI matchTimeText;
+
+    private float playerMaxHealth;
+    private float enemyMaxHealth;
     
     [SerializeField] private GameObject uiPanel;
     [SerializeField] private GameObject pausePanel;
@@ -131,13 +134,19 @@ public class GameUIManager : Singleton<GameUIManager>
 
         panels = new GameObject[] { uiPanel, pausePanel, endGamePanel, loadingPanel };
     }
-    
+
+    private void Start()
+    {
+        playerMaxHealth = GameManager.Instance.player.health;
+        enemyMaxHealth = GameManager.Instance.enemy.health;
+    }
+
     private void Update()
     {
         playerPrimaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.primaryActualCooldown, 0);
         playerSecondaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.secondaryActualCooldown, 0);
-        playerHealth.value = GameManager.Instance.player.health / 100;
-        enemyHealth.value = GameManager.Instance.enemy.health / 100;
+        playerHealth.value = GameManager.Instance.player.health / playerMaxHealth;
+        enemyHealth.value = GameManager.Instance.enemy.health / enemyMaxHealth;
         playerHealthText.text = GameManager.Instance.player.health.ToString(CultureInfo.InvariantCulture);
         enemyHealthText.text = GameManager.Instance.enemy.health.ToString(CultureInfo.InvariantCulture);
         playerBoostText.text = ParseBoosts(playerBoosts);

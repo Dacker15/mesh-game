@@ -4333,7 +4333,7 @@ MonoBehaviour:
   cubeEnemy: {fileID: 2437680122049394748, guid: 8d1573ae0bf9949bd8e6163159428bfd, type: 3}
   spherePlayer: {fileID: 2393597171421703689, guid: c2a8c398067a248678d654eba3a1b6b3, type: 3}
   sphereEnemy: {fileID: 4604927211634163051, guid: af93c48a03fff4c6fa6cc7974714639a, type: 3}
-  playerType: 1
+  playerType: 0
 --- !u!4 &1466874299
 Transform:
   m_ObjectHideFlags: 0

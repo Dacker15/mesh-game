@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df3a99b00e4d7741913811f377c03cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 50
   invulnerableActualCooldown: 0
   controller: {fileID: 4293833893656609337}
 --- !u!195 &5529896514343397915
