@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ public class CubeAttack : AttackController
     [SerializeField] private AnimationClip secondaryAnimation;
     [SerializeField] private AudioClip primaryRotationClip;
     [SerializeField] private AudioClip secondaryShotClip;
+    [SerializeField] private ParticleSystem secondaryShotParticle;
     private Animator animator;
     private CubeAnimation animationManager;
     private bool isPrimaryFireActive;
@@ -35,6 +35,8 @@ public class CubeAttack : AttackController
     public override void FireSecondaryInput()
     {
         FireSecondary();
+        secondaryShotParticle.Stop();
+        secondaryShotParticle.Play();
         inputChangeCallback(true, true, false);
         animator.Play(secondaryAnimation.name);
         AudioSource.PlayClipAtPoint(secondaryShotClip, transform.position, 1);
