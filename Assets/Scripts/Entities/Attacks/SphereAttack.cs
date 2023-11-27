@@ -9,6 +9,7 @@ public class SphereAttack : AttackController
     [SerializeField] private AudioClip primaryShotClip;
     [SerializeField] private AudioClip secondaryRotationClip;
     [SerializeField] private AudioClip secondaryImpactClip;
+    [SerializeField] private GameObject secondaryImpactArea;
     private float primaryActualDistance;
     private bool isSecondaryFireActive;
     private Animator animator;
@@ -48,6 +49,7 @@ public class SphereAttack : AttackController
     private void PlayImpactSound()
     {
         AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
+        secondaryImpactArea.SetActive(true);
     }
 
     protected override void OnPrimaryFireUpdate() { }
@@ -82,6 +84,7 @@ public class SphereAttack : AttackController
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
+        secondaryImpactArea.SetActive(false);
         ResetSecondaryCooldown();
         ResetInput();
     }
