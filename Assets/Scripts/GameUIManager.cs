@@ -6,11 +6,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Image = UnityEngine.UIElements.Image;
 
 public class GameUIManager : Singleton<GameUIManager>
 {
     [SerializeField] private TextMeshProUGUI playerPrimaryCooldownText;
+    [SerializeField] private GameObject playerPrimaryCooldownImage;
     [SerializeField] private TextMeshProUGUI playerSecondaryCooldownText;
+    [SerializeField] private GameObject playerSecondaryCooldownImage;
     [SerializeField] private Slider playerHealth;
     [SerializeField] private Slider enemyHealth;
     [SerializeField] private TextMeshProUGUI playerHealthText;
@@ -40,6 +43,21 @@ public class GameUIManager : Singleton<GameUIManager>
     private string ParseCooldown(float value, float threshold)
     {
         return Math.Max(threshold, Math.Ceiling(value)).ToString(CultureInfo.InvariantCulture);
+    }
+
+    private void HandleCooldownIcon(TextMeshProUGUI text, GameObject image, float cooldown, float threshold)
+    {
+        if (cooldown > threshold)
+        {
+            text.text = ParseCooldown(cooldown, threshold);
+            text.gameObject.SetActive(true);
+            image.SetActive(false);
+        }
+        else
+        {
+            text.gameObject.SetActive(false);
+            image.SetActive(true);
+        }
     }
     
     private string ParseBoosts(List<PowerUp> powerUps)
@@ -143,8 +161,8 @@ public class GameUIManager : Singleton<GameUIManager>
 
     private void Update()
     {
-        playerPrimaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.primaryActualCooldown, 0);
-        playerSecondaryCooldownText.text = ParseCooldown(GameManager.Instance.playerController.secondaryActualCooldown, 0);
+        HandleCooldownIcon(playerPrimaryCooldownText, playerPrimaryCooldownImage, GameManager.Instance.playerController.primaryActualCooldown, 0);
+        HandleCooldownIcon(playerSecondaryCooldownText, playerSecondaryCooldownImage, GameManager.Instance.playerController.secondaryActualCooldown, 0);
         playerHealth.value = GameManager.Instance.player.health / playerMaxHealth;
         enemyHealth.value = GameManager.Instance.enemy.health / enemyMaxHealth;
         playerHealthText.text = GameManager.Instance.player.health.ToString(CultureInfo.InvariantCulture);
