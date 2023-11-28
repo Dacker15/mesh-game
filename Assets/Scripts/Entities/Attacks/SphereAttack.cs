@@ -22,7 +22,7 @@ public class SphereAttack : AttackController
         animator = GetComponentInChildren<Animator>();
         animationManager = GetComponentInChildren<SphereAnimation>();
         animationManager.onRotationStart += PlayRotationSound;
-        animationManager.onImpactStart += PlayImpactSound;
+        animationManager.onImpactStart += HandleImpactStart;
     }
 
     public override void FirePrimaryInput()
@@ -38,7 +38,6 @@ public class SphereAttack : AttackController
     {
         inputChangeCallback(false, false, false);
         animator.Play(secondaryAnimation.name);
-        StartCoroutine(WaitResetSecondaryCooldown());
     }
 
     private void PlayRotationSound()
@@ -46,10 +45,11 @@ public class SphereAttack : AttackController
         AudioSource.PlayClipAtPoint(secondaryRotationClip, transform.position);
     }
 
-    private void PlayImpactSound()
+    private void HandleImpactStart()
     {
         AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
         secondaryImpactArea.SetActive(true);
+        StartCoroutine(WaitResetSecondaryCooldown());
     }
 
     protected override void OnPrimaryFireUpdate() { }
