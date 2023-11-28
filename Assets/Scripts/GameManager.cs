@@ -194,7 +194,6 @@ public sealed class GameManager : Singleton<GameManager>
                 collider.isTrigger = true;
                 spawnedPickUp = powerUpComponent;
                 pickUpGameObject.transform.position = selectedPowerUpSpawn.transform.position;
-                Instantiate(pickUpGameObject);
                 GameEvents.PowerUpSpawn(powerUpComponent);
                 break;
             }
