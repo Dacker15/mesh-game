@@ -103,7 +103,7 @@ MonoBehaviour:
   primaryCooldown: 3
   secondaryCooldown: 6
   primaryFireRadius: 15
-  secondaryFireRadius: 4
+  secondaryFireRadius: 3
   primaryFireType: 1
   secondaryFireType: 0
   opponentTag: Player

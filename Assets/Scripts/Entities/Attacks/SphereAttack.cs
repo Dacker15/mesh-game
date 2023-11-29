@@ -47,9 +47,7 @@ public class SphereAttack : AttackController
 
     private void HandleImpactStart()
     {
-        AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
-        secondaryImpactArea.SetActive(true);
-        StartCoroutine(WaitResetSecondaryCooldown());
+        StartCoroutine(HandleSecondaryAttack());
     }
 
     protected override void OnPrimaryFireUpdate() { }
@@ -79,8 +77,10 @@ public class SphereAttack : AttackController
         ResetInput();
     }
 
-    private IEnumerator WaitResetSecondaryCooldown()
+    private IEnumerator HandleSecondaryAttack()
     {
+        AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
+        secondaryImpactArea.SetActive(true);
         isSecondaryFireActive = true;
         yield return new WaitForSeconds(secondaryDuration);
         isSecondaryFireActive = false;
