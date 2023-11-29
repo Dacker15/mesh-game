@@ -216,10 +216,10 @@ public sealed class GameManager : Singleton<GameManager>
         switch (winner)
         {
             case EndGameWinner.PLAYER:
-                player.gameObject.SetActive(false);
+                enemy.gameObject.SetActive(false);
                 break;
             case EndGameWinner.ENEMY:
-                enemy.gameObject.SetActive(false);
+                player.gameObject.SetActive(false);
                 break;
         }
     }
