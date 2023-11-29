@@ -107,6 +107,7 @@ MonoBehaviour:
   primaryFireType: 1
   secondaryFireType: 0
   opponentTag: Player
+  primaryEffectiveFireRadius: 2
   primaryRotationSpeed: 30
   secondaryDuration: 3
   secondaryAnimation: {fileID: 7400000, guid: d537b8ac37d72954abdeebb3275e9958, type: 2}

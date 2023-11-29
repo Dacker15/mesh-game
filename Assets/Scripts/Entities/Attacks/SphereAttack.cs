@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SphereAttack : AttackController
 {
+    [SerializeField] private float primaryEffectiveFireRadius;
     [SerializeField] private float primaryRotationSpeed;
     [SerializeField] private float secondaryDuration;
     [SerializeField] private AnimationClip secondaryAnimation;
@@ -24,14 +25,25 @@ public class SphereAttack : AttackController
         animationManager.onRotationStart += PlayRotationSound;
         animationManager.onImpactStart += HandleImpactStart;
     }
+    
+    protected override void FirePrimary()
+    {
+        if (Fire(HitType.MEELE, primaryEffectiveFireRadius))
+        {
+            primaryFireSuccessCallback(primaryDamage);
+        }
+        else
+        {
+            primaryFireFailCallback?.Invoke();
+        }
+    }
 
     public override void FirePrimaryInput()
     {
-        FirePrimary();
         inputChangeCallback(false, false, false);
         primaryActualDistance = 0;
         AudioSource.PlayClipAtPoint(primaryShotClip, transform.position, 10);
-        StartCoroutine(MovePlayerOnPrimaryFire());
+        StartCoroutine(HandlePrimaryFire());
     }
 
     public override void FireSecondaryInput()
@@ -47,7 +59,7 @@ public class SphereAttack : AttackController
 
     private void HandleImpactStart()
     {
-        StartCoroutine(HandleSecondaryAttack());
+        StartCoroutine(HandleSecondaryFire());
     }
 
     protected override void OnPrimaryFireUpdate() { }
@@ -60,7 +72,7 @@ public class SphereAttack : AttackController
         }
     }
 
-    private IEnumerator MovePlayerOnPrimaryFire()
+    private IEnumerator HandlePrimaryFire()
     {
         while (primaryActualDistance >= 0 && primaryActualDistance <= primaryFireRadius)
         {
@@ -68,6 +80,7 @@ public class SphereAttack : AttackController
             transform.Translate(0, 0, frameDistance);
             transform.Rotate(frameDistance, 0, 0);
             primaryActualDistance += frameDistance;
+            FirePrimary();
             yield return null;
         }
 
@@ -77,7 +90,7 @@ public class SphereAttack : AttackController
         ResetInput();
     }
 
-    private IEnumerator HandleSecondaryAttack()
+    private IEnumerator HandleSecondaryFire()
     {
         AudioSource.PlayClipAtPoint(secondaryImpactClip, transform.position);
         secondaryImpactArea.SetActive(true);

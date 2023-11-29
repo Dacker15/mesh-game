@@ -17,10 +17,10 @@ public abstract class AttackController : MonoBehaviour
     [SerializeField] protected string opponentTag;
     [NonSerialized] public float primaryActualCooldown;
     [NonSerialized] public float secondaryActualCooldown;
-    private FireSuccess primaryFireSuccessCallback;
-    private FireFail primaryFireFailCallback;
-    private FireSuccess secondaryFireSuccessCallback;
-    private FireFail secondaryFireFailCallback;
+    protected FireSuccess primaryFireSuccessCallback;
+    protected FireFail primaryFireFailCallback;
+    protected FireSuccess secondaryFireSuccessCallback;
+    protected FireFail secondaryFireFailCallback;
     protected OnInputActiveChange inputChangeCallback;
     
 
@@ -52,8 +52,11 @@ public abstract class AttackController : MonoBehaviour
         if (type == HitType.MEELE)
         {
             GameObject enemy = GameObject.FindGameObjectWithTag(opponentTag);
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            return distance < fireRadius;
+            if (enemy != null)
+            {
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                return distance < fireRadius;   
+            }
         }
         else
         {
