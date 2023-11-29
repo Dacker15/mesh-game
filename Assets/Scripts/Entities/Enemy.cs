@@ -100,11 +100,7 @@ public class Enemy : PlayableEntity
         {
             nearestPowerUp = null;
         } 
-        else if (isPlayerNearestToNextThanEnemy)
-        {
-            Debug.Log("Continue follow prev power up");
-        }
-        else
+        else if (!isPlayerNearestToNextThanEnemy)
         {
             nearestPowerUp = null;
         }
@@ -139,7 +135,6 @@ public class Enemy : PlayableEntity
         float probabilityReduce = abilityUsedCount * 10;
         float minInclusive = nextAbilityToUse == 1 ? Math.Min(probabilityReduce, 50) : 0;
         float maxInclusive = nextAbilityToUse == 2 ? Math.Max(100 -  probabilityReduce, 50) : 100;
-        Debug.LogFormat("Next Ability Probability Range: {0} - {1}", minInclusive, maxInclusive);
         float result = Random.Range(minInclusive, maxInclusive);
         short nextAbility = result <= 50 ? (short) 1 : (short) 2;
         if (nextAbilityToUse != nextAbility)
@@ -167,7 +162,6 @@ public class Enemy : PlayableEntity
         float impreciseProbability = Random.Range(impreciseProbabilityStartRange, 100);
         bool isImprecise = impreciseProbability < 50;
         float imprecisionRate = 0;
-        Debug.LogFormat("Imprecise Shot probability range: {0} - {1}", impreciseProbabilityStartRange, 100);
         if (isImprecise)
         {
             float imprecisionDistance = Random.Range(5, 15);

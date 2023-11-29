@@ -10,7 +10,6 @@ public class Player : PlayableEntity
 
     protected override void OnFirePrimarySuccess(float damage)
     {
-        Debug.Log("Primary success for player");
         GameEvents.PlayerHit(damage);
     }
 
