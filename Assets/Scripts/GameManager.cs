@@ -236,8 +236,8 @@ public sealed class GameManager : Singleton<GameManager>
     {
         float nextHealth = enemy.TakeDamage(outsideDamage);
         enemy.MakeInvulnerable(outsideInvulnerableTime);
-        player.transform.position = enemySpawnPosition;
-        player.transform.rotation = enemySpawnRotation;
+        enemy.transform.position = enemySpawnPosition;
+        enemy.transform.rotation = enemySpawnRotation;
         Debug.LogFormat("Enemy is outside, health is now {0}", nextHealth);
     }
 }
