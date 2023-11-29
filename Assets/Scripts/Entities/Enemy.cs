@@ -118,7 +118,7 @@ public class Enemy : PlayableEntity
         }
     }
 
-    private void setAgentDestination(Vector3 destination)
+    private void SetAgentDestination(Vector3 destination)
     {
         if (isTransformActive && isRotationActive)
         {
@@ -252,12 +252,12 @@ public class Enemy : PlayableEntity
         // If there are PowerUp in the map, follow him 
         if (nearestPowerUp != null)
         {
-            setAgentDestination(nearestPowerUp.transform.position);
+            SetAgentDestination(nearestPowerUp.transform.position);
         }
         // If there are no PowerUp, but ability are ready, focus on attack
         else if ((controller.isPrimaryFireReady() || controller.isSecondaryFireReady()) && attackCooldown <= 0)
         {
-            setAgentDestination(GameManager.Instance.player.transform.position);
+            SetAgentDestination(GameManager.Instance.player.transform.position);
             if (Vector3.Distance(transform.position, GameManager.Instance.player.transform.position) < GetNextAbilityFireRadius())
             {
                 if (controller.isPrimaryFireReady() && nextAbilityToUse == 1 && isInputActive)
@@ -265,6 +265,7 @@ public class Enemy : PlayableEntity
                     if (IsNextAbilityRaycast())
                     {
                         ImpreciseLookAt();
+                        agent.ResetPath();
                     }
                     FirePrimary();
                 }
@@ -273,9 +274,9 @@ public class Enemy : PlayableEntity
                     if (IsNextAbilityRaycast())
                     {
                         ImpreciseLookAt();
+                        agent.ResetPath();
                     }
                     FireSecondary();
-                    
                 }
 
                 abilityUsedCount += 1;
@@ -302,25 +303,25 @@ public class Enemy : PlayableEntity
                 {
                     if (!IsCloseToCorner(navHit.position))
                     {
-                        setAgentDestination(navHit.position);   
+                        SetAgentDestination(navHit.position);   
                     }
                     else
                     {
-                        GoToNearestCorner();
+                        SetAgentDestination(GoToNearestCorner());
                     }
                 }
                 else
                 {
                     if (IsCloseToCorner(transform.position))
                     {
-                        GoToNearestCorner();
+                        SetAgentDestination(GoToNearestCorner());
                     }
                     else
                     {
                         Vector3 bestValidPoint = FindBestValidPoint();
                         if (bestValidPoint != Vector3.zero)
                         {
-                            setAgentDestination(bestValidPoint);
+                            SetAgentDestination(bestValidPoint);
                         }   
                     }
                 }   
