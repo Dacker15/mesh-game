@@ -18,18 +18,19 @@ public class CubeAttack : AttackController
         animator = GetComponentInChildren<Animator>();
         animationManager = GetComponentInChildren<CubeAnimation>();
         animationManager.onRotationStart += PlayPrimaryRotationSound;
+        animationManager.onWeaponOut += HandleStartPrimaryFire;
     }
 
     private void OnDestroy()
     {
         animationManager.onRotationStart -= PlayPrimaryRotationSound;
+        animationManager.onWeaponOut -= HandleStartPrimaryFire;
     }
 
     public override void FirePrimaryInput()
     {
         inputChangeCallback(true, false, false);
         animator.Play(primaryAnimation.name);
-        StartCoroutine(WaitResetPrimaryCooldown());
     }
 
     public override void FireSecondaryInput()
@@ -42,6 +43,11 @@ public class CubeAttack : AttackController
         AudioSource.PlayClipAtPoint(secondaryShotClip, transform.position, 1);
         ResetSecondaryCooldown();
         ResetInput();
+    }
+
+    private void HandleStartPrimaryFire(float seconds)
+    {
+        StartCoroutine(HandlePrimaryFire(seconds));
     }
 
     protected override void OnPrimaryFireUpdate()
@@ -59,10 +65,10 @@ public class CubeAttack : AttackController
         AudioSource.PlayClipAtPoint(primaryRotationClip, transform.position, 10);
     }
     
-    private IEnumerator WaitResetPrimaryCooldown()
+    private IEnumerator HandlePrimaryFire(float seconds)
     {
         isPrimaryFireActive = true;
-        yield return new WaitForSeconds(primaryAnimation.length);
+        yield return new WaitForSeconds(primaryAnimation.length - seconds);
         isPrimaryFireActive = false;
         ResetPrimaryCooldown();
         ResetInput();

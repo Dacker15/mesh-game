@@ -63,6 +63,7 @@ public abstract class AttackController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.forward * fireRadius, Color.black, 10, false);
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, fireRadius))
             {
+                Debug.LogFormat("Hitted something {0}", hit.collider.gameObject.name);
                 return hit.collider.CompareTag(opponentTag);
             }
         }
