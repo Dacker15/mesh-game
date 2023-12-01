@@ -6,10 +6,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Image = UnityEngine.UIElements.Image;
 
 public class GameUIManager : Singleton<GameUIManager>
 {
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private TextMeshProUGUI playerPrimaryCooldownText;
     [SerializeField] private GameObject playerPrimaryCooldownImage;
     [SerializeField] private TextMeshProUGUI playerSecondaryCooldownText;
@@ -33,6 +33,11 @@ public class GameUIManager : Singleton<GameUIManager>
     [SerializeField] private TextMeshProUGUI endGameText;
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private Slider loadingSlider;
+
+    private bool showIndicators;
+    [SerializeField] private float indicatorShowSeconds;
+    [SerializeField] private TextMeshProUGUI playerIndicator;
+    [SerializeField] private TextMeshProUGUI enemyIndicator;
 
     private GameObject[] panels;
 
@@ -137,6 +142,15 @@ public class GameUIManager : Singleton<GameUIManager>
             yield return null;
         }
     }
+
+    private IEnumerator HandleIndicators()
+    {
+        showIndicators = true;
+        yield return new WaitForSeconds(indicatorShowSeconds);
+        showIndicators = false;
+        playerIndicator.gameObject.SetActive(false);
+        enemyIndicator.gameObject.SetActive(false);
+    }
     
     protected override void Awake()
     {
@@ -157,6 +171,7 @@ public class GameUIManager : Singleton<GameUIManager>
     {
         playerMaxHealth = GameManager.Instance.player.health;
         enemyMaxHealth = GameManager.Instance.enemy.health;
+        StartCoroutine(HandleIndicators());
     }
 
     private void Update()
@@ -173,6 +188,12 @@ public class GameUIManager : Singleton<GameUIManager>
         string minutes = Math.Floor(GameManager.Instance.matchTime / 60).ToString(CultureInfo.InvariantCulture);
         string seconds = Math.Floor(GameManager.Instance.matchTime % 60).ToString(CultureInfo.InvariantCulture).PadLeft(2, '0');
         matchTimeText.text = $"{minutes}:{seconds}";
+
+        if (showIndicators)
+        {
+            playerIndicator.gameObject.transform.position = mainCamera.WorldToScreenPoint(GameManager.Instance.player.transform.position) + new Vector3(-90, 0, 0);
+            enemyIndicator.gameObject.transform.position = mainCamera.WorldToScreenPoint(GameManager.Instance.enemy.transform.position) + new Vector3(-90, 0, 0);   
+        }
     }
     
     private void OnDestroy()
